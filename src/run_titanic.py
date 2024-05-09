@@ -1,9 +1,5 @@
 # Evaluating Neural Network and Decision Tree algorithms on titanic dataset
 
-import sys
-sys.path.append("./src/neural_net")
-sys.path.append("./src/decision_tree")
-
 from NeuralNet import *
 from DecisionTree import *
 import numpy as np

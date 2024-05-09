@@ -1,5 +1,7 @@
 # Evaluating Neural Network and k-NN algorithms on digits dataset
 
+from NeuralNet import *
+from kNN import *
 from sklearn import datasets
 import numpy as np
 import matplotlib.pyplot as plt
