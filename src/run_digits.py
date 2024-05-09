@@ -5,6 +5,7 @@ from kNN import *
 from sklearn import datasets
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 
 def f_score(predictions, true_labels):
@@ -123,25 +124,52 @@ def main():
     digits_y = digits[1]
     N = len(digits_x)
 
+    print("Number of attributes:", len(digits_x[0]))
+    print("Number of instances:", len(digits_x))
+
+    # number of folds to use for cross-validation
     num_folds = 10
 
-    k = 15
+    # number of neighbours to use for k-NN
+    # k = 25
 
-    train_acc, test_acc, test_f = k_fold_cross_validation(digits_x, digits_y, num_folds, k)
-    #print("Predictions:", predictions)
-    # print("Training accuracy:", train_acc)
-    # print("Testing accuracy:", test_acc)
-    # print("Testing F-Score:", test_f)
-    print("For", k, "nearest neighbours \n")
-    print("Test accuracy:", np.mean(test_acc))
-    print("Test F-Score:", np.mean(test_f))
+    # range of k values to evaluate
+    k_values = range(1, 52, 2)
+
+    # list to store result of each k value
+    results = []
+
+    # perform cross-validation for each value of k
+    for k in k_values:
+        train_acc, test_acc, test_f = k_fold_cross_validation(digits_x, digits_y, num_folds, k)
+        
+        # calculate mean accuracy and F-score for testing data
+        mean_test_accuracy = np.mean(test_acc)
+        mean_test_f_score = np.mean(test_f)
+
+        results.append({'k': k, 'test_accuracy': mean_test_accuracy, 'test_f_score': mean_test_f_score})
+
+    # create dataframe from the results
+    results_df = pd.DataFrame(results)
+
+    print(results_df)
+
+
+    # train_acc, test_acc, test_f = k_fold_cross_validation(digits_x, digits_y, num_folds, k)
+    # #print("Predictions:", predictions)
+    # # print("Training accuracy:", train_acc)
+    # # print("Testing accuracy:", test_acc)
+    # # print("Testing F-Score:", test_f)
+    # print("For", k, "nearest neighbours \n")
+    # print("Test accuracy:", np.mean(test_acc))
+    # print("Test F-Score:", np.mean(test_f))
 
 
     # prints 64 attributes of a random digit and its class
     # shows the digit on the screen
-    digit_to_show = np.random.choice(range(N), 1)[0]
-    print("Attributes:", digits_x[digit_to_show])
-    print("Class:", digits_y[digit_to_show])
+    # digit_to_show = np.random.choice(range(N), 1)[0]
+    # print("Attributes:", digits_x[digit_to_show])
+    # print("Class:", digits_y[digit_to_show])
 
     # plt.imshow(np.reshape(digits_x[digit_to_show], (8,8)))
     # plt.show()
