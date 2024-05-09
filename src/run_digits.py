@@ -5,7 +5,7 @@ from kNN import *
 from sklearn import datasets
 import numpy as np
 import matplotlib.pyplot as plt
-import statistics
+
 
 def f_score(predictions, true_labels):
     tp = 0
@@ -22,14 +22,12 @@ def f_score(predictions, true_labels):
             else:
                 fn += 1
     
-    # Calculate precision, recall, and F1-score
+    # calculate precision, recall, and F1-score
     precision = tp / (tp + fp) if (tp + fp) != 0 else 0
     recall = tp / (tp + fn) if (tp + fn) != 0 else 0
     f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) != 0 else 0
     
     return f1_score
-
-
 
 def normalise(x):
     """normalises values in instance to [0, 1] using min/max method"""
