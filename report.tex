@@ -45,11 +45,15 @@ to adjust their hyper-parameters for optimal performance.
 The authors have chosen to coordinate on every dataset. For the first two algorithms of every dataset, one of them comes from \textit{Yan Mazheika}
 while the other comes from \textit{Polina Petrova}. These algorithms may have been modified to handle a new type of data
 but their fundamental logic stays consistent from previous use cases.
+\\
+
+We use cross-validation of k=10 folds when testing the performance of our models (except for kNN). We also transform the data into the [0,1] range when using the neural network or kNN classifiers.
 
 \newpage
 \section*{Digits Dataset}
 
-The digits dataset come's from the sci-kit learn library, available in Python. We have chosen to analyze the performance of a neural network classifier and the k-Nearest Neighbors classifier.
+The digits dataset come's from the sci-kit learn library, available in Python. We have chosen to analyze the performance of a neural network classifier and the k-Nearest Neighbors classifier. Again, we mention
+that the neural network tuning was performed by \textit{Yan Mazheika} while the kNN tuning was done by \textit{Polina Petrova}.
 \\
 
 We chose a neural network as one of our algorithms for this dataset because of the algorithm's ability to
@@ -59,7 +63,7 @@ impressive results in image classification tasks, making them a top contender fo
 
 On the other hand, the k-NN algorithm is a simple yet effective classifier that makes predictions based on the closeness of past training instances in the feature space. We figured that similar pixel activations in the handwritten digits
 would translate into less distance in the 64-dimensional feature space. A concern we had when choosing this algorithm is precision loss; kNN performs poorly with a large number of features, which is 64 in our case. The distance measurement between two instances
-converges to zero as we add more features and normalize them.
+converges to zero as we add more features and normalize them. This (has/hasn't) proved to be a problem.
 
 \subsection*{Performance Metrics}
 
@@ -90,16 +94,24 @@ converges to zero as we add more features and normalize them.
     \toprule
      & kNN \\
     \midrule
-    Neighbors $k$ & 23 \\
-    Mean Accuracy & 0.88 \\
-    Mean F1-score & 0.95 \\
+    Neighbors $k$ & $k$ \\
+    Mean Accuracy & ? \\
+    Mean F1-score & ? \\
     \bottomrule
     \end{tabular}
 
 \end{minipage}
 
-\subsection*{Analysis}
+\subsection*{Tuning Hyper-parameters}
+For the neural network, we've chosen an $\alpha$ of 0.05 and a regularization constant of $\lambda=0.01$. At first, with a $\lambda=0$ and $\alpha=0.50$, the model had good performance but a quick convergence in the training curve.
+We found increased performance and a slower convergence by decreasing $\alpha$ and increasing $\lambda$ to a final accuracy of 99.62\%. This indicates a misclassification of 6 total instances out of 1,797 total.
+The architecture was chosen because it had the lowest accuracy variance between each fold out of the models tested.
+\\
 
+...
+
+\subsection*{Analysis}
+...
 
 \newpage
 \section*{Titanic Dataset}
