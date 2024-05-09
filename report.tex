@@ -41,22 +41,62 @@ we justify our algorithm choice for the given dataset and our choice of hyper-pa
 are for the reader's benefit; we also aim to provide insight into how to solve novel machine problems, which algorithms may work best, and how
 to adjust their hyper-parameters for optimal performance.
 
+\subsection*{Approach}
+The authors have chosen to coordinate on every dataset. For the first two algorithms of every dataset, one of them comes from \textit{Yan Mazheika}
+while the other comes from \textit{Polina Petrova}. These algorithms may have been modified to handle a new type of data
+but their fundamental logic stays consistent from previous use cases.
 
 \newpage
 \section*{Digits Dataset}
 
-\begin{tabular}{ll}
+The digits dataset come's from the sci-kit learn library, available in Python. We have chosen to analyze the performance of a neural network classifier and the k-Nearest Neighbors classifier.
+\\
+
+We chose a neural network as one of our algorithms for this dataset because of the algorithm's ability to
+handle complex patterns and identify non-linear patterns in these data. Anecdotally, neural networks have shown
+impressive results in image classification tasks, making them a top contender for handwritten digit recognition, the focus of this dataset.
+\\
+
+On the other hand, the k-NN algorithm is a simple yet effective classifier that makes predictions based on the closeness of past training instances in the feature space. We figured that similar pixel activations in the handwritten digits
+would translate into less distance in the 64-dimensional feature space. A concern we had when choosing this algorithm is precision loss; kNN performs poorly with a large number of features, which is 64 in our case. The distance measurement between two instances
+converges to zero as we add more features and normalize them.
+
+\subsection*{Performance Metrics}
+
+%we can adjust for three models later
+
+\begin{minipage}{0.49\textwidth}
+    \centering
+
+    \begin{tabular}{lc}
+        \toprule
+         & Neural Network \\
+        \midrule
+        Learning Rate $\alpha$ & 0.0500 \\
+        Regularization $\lambda$ & 0.0100 \\
+        Architecture & [64, 32, 32, 10] \\
+        Mean Accuracy & 0.9962 \\
+        Mean F1-score & 0.9809 \\
+        Mean Test Cost & 59.3100 \\
+        \bottomrule
+    \end{tabular}
+
+\end{minipage}
+    \hfill
+\begin{minipage}{0.49\textwidth}
+    \centering
+
+    \begin{tabular}{lc}
     \toprule
-     & Neural Network \\
+     & kNN \\
     \midrule
-    Learning Rate $\alpha$ & 0.0500 \\
-    Regularization $\lambda$ & 0.0100 \\
-    Architecture & [64, 32, 32, 10] \\
-    Mean Accuracy & 0.9962 \\
-    Mean F1-score & 0.9809 \\
-    Mean Test Cost & 59.3100 \\
+    Neighbors $k$ & 23 \\
+    Mean Accuracy & 0.88 \\
+    Mean F1-score & 0.95 \\
     \bottomrule
-\end{tabular}
+    \end{tabular}
+
+\end{minipage}
 
 \subsection*{Analysis}
 
