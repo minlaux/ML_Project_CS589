@@ -137,9 +137,9 @@ converges to zero as we add more features and normalize them. This (has/hasn't) 
         \toprule
         & kNN \\
         \midrule
-        Neighbors $k$ & $k$ \\
-        Mean Accuracy & ? \\
-        Mean F1-score & ? \\
+        Neighbors $k$ & 51 \\
+        Mean Accuracy & 0.8698 \\
+        Mean F1-score & 0.9298 \\
         \bottomrule
     \end{tabular}
     \captionof*{figure}{\textit{Metrics for Preferred Model Variant}}
@@ -190,10 +190,27 @@ We found increased performance and a slower convergence by decreasing $\alpha$ a
 The architecture was chosen because it had the lowest accuracy variance between each fold out of the models tested.
 \\
 
-...
+In our implementation of the k-NN algorithm, we tested different values of $k$ in the range [1, 52) for an ideal hyperparameter. 
+We observed an initial jump in the evaluation metrics between $k$ = 1 and $k$ = 2 and a high variance.
+This points to the algorithm being sensitive to outliers at very small values of $k$.
+As the value of $k$ increases, the values of the evaluation metrics increase, as well, and stabilise by $k$ = 51 at 86.98\% for accuracy and 92.98\% for F1-score.
+Increasing this hyperparameter value also led to smaller variance, which is helpful when dealing with noisy datasets.
+In witnessing this convergence, we have chosen a final hyperparameter value for the k-NN algorithm to be $k$ = 51.
+With a larger $k$ value and smoother decision boundary, we mitigate the chance of overfitting our model to the data.
+
 
 \subsection*{Analysis}
-...
+Reporting on the final runs of the neural network and k-NN algorithms on the digits dataset, both models performed well on the testing instances.
+However, testing on the neural network resulted in higher accuracy and F1-score values as opposed to when testing on k-NN.
+Dealing with an 8x8 pixel image, k-NN is able to effectively measure distances in the feature space when making predictions.
+Although k-NN performs well on this dataset, it struggles in distinguishing between two or more digits that look alike when handwritten.
+For example, an analysis of its predictions made on an instance of class 0 may return a substantial number of predictions of class 9, which would be a factor in decreasing accuracy.
+\\
+
+The neural network acts as a well-defined alternative to this issue, as it captures more complex patterns and data variability present in handwriting.
+Additionally, a higher neuron count fascilitates learning these handwriting variations of numbers of the same class, making the network more reliable in predicting instances that look alike and a higher accuracy.
+
+
 
 \newpage
 \section*{Titanic Dataset}
@@ -284,16 +301,41 @@ include passenger class, ticket fare, and gender. With three main features impac
         \toprule
         & Decision Tree \\
         \midrule
-        Maximum Depth & $k$ \\
-        Mean Accuracy & ? \\
-        Mean F1-score & ? \\
+        Maximum Depth & 4 \\
+        Mean Accuracy & 0.7023 \\
+        Mean F1-score & 0.8234 \\
         \bottomrule
     \end{tabular}
     \captionof*{figure}{\textit{Metrics for Preferred Model Variant}}
 \end{minipage}
 \restoregeometry
 \subsection*{Tuning Hyper-parameters}
+...
+
+\\
+Conducting multiple analyses of the decision tree algorithm on the titanic dataset with differing maximum tree depths,
+we have determined the preferred hyperparameter to be $max\_depth$ = 4. 
+At this value, accuracy and F1-score reach a peak at 70.23\% and 82.34\%, respectively, after which both metrics decrease substantially.
+Deeper trees lead to overfitting and decrease in generalisation ability, 
+which is evidenced by the sharp increace in variance on both accuracy and F-1 score after tree depth 4.
+
+
 \subsection*{Analysis}
+Our decision tree struggled in providing reliable predictions on the titanic dataset. 
+This is possibly due to the fact that the dataset contained numerical attributes such as $Ticket\ Fare$ and $Age$
+that may be difficult to evaluate on this model.
+The decision nodes were split based on a numerical threshold that maximised information gain at each decision point.
+This approach is particularly challenging given the large range of numerical values present in the data.
+For example, there were passengers as old as 80 years-old on the ship, along with infants as young as 5 months-old.
+Similarly, the ticket fare values ranged from 0.0 to 512, showing a wide distribution of values. 
+Although we employed feature normalisation, this variability in numerical attributes could have contributed to 
+the difficulty in finding optimal splits during the tree construction process. 
+Additionally, deeper trees tend to create more decision nodes based on numerical thresholds, 
+which may struggle to effectively differentiate between instances with similar normalised values but different original scales.
+\\
+
+On the other hand, employing a neural network on this dataset proved to be substantially more accurate in predicting instance classes.
+
 
 
 \newpage
