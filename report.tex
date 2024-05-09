@@ -71,8 +71,7 @@ converges to zero as we add more features and normalize them. This (has/hasn't) 
 %we can adjust for three models later
 \begin{center}
     \texttt{Neural Network}
-    
-    //TODO fix title
+
     \includegraphics*[width=0.8\textwidth]{./src/figures/Digits-test-cost.png}
 \end{center}
 
@@ -100,28 +99,65 @@ converges to zero as we add more features and normalize them. This (has/hasn't) 
     \captionof*{figure}{\textit{Test cost over 179,700 instances}}
     \vfill
 \end{minipage}
+
+\begin{center}
+    \texttt{k-NN Algorithm}
+\end{center}
+
 \begin{minipage}{0.49\textwidth}
     \centering
 
+    graph here
+    \vspace{30pt}
+    
     \begin{tabular}{lc}
         \toprule
-         & kNN \\
+        & kNN \\
         \midrule
         Neighbors $k$ & $k$ \\
         Mean Accuracy & ? \\
         Mean F1-score & ? \\
         \bottomrule
     \end{tabular}
-
+    \captionof*{figure}{\textit{Preferred Model Variant}}
 \end{minipage}
-    \hfill
 \begin{minipage}{0.49\textwidth}
     \centering
-    
-    \includegraphics*[width=1\textwidth]{./src/figures/Digits_train_cost.png}
-    \captionof*{figure}{\textit{kNN Curve}}
-    \vfill
+    \begin{tabular}{lrrr}
+        \toprule
+        $k$ & Test Accuracy & Test F-Score \\
+        \midrule
+        1 & {0.7291} & {0.8413} \\
+        3 & {0.7615} & {0.8625} \\
+        5 & {0.7615} & {0.8629} \\
+        7 & {0.7799} & {0.8748} \\
+        9 & {0.7872} & {0.8797} \\
+        11 & {0.7911} & {0.8821} \\
+        13 & {0.7939} & {0.8836} \\
+        15 & {0.8000} & {0.8875} \\
+        17 & {0.8073} & {0.8921} \\
+        19 & {0.8089} & {0.8932} \\
+        21 & {0.8184} & {0.8991} \\
+        23 & {0.8235} & {0.9022} \\
+        25 & {0.8307} & {0.9066} \\
+        27 & {0.8302} & {0.9062} \\
+        29 & {0.8330} & {0.9079} \\
+        31 & {0.8380} & {0.9111} \\
+        33 & {0.8397} & {0.9121} \\
+        35 & {0.8441} & {0.9148} \\
+        37 & {0.8503} & {0.9184} \\
+        39 & {0.8542} & {0.9208} \\
+        41 & {0.8547} & {0.9209} \\
+        43 & {0.8570} & {0.9223} \\
+        45 & {0.8615} & {0.9249} \\
+        47 & {0.8670} & {0.9281} \\
+        49 & {0.8682} & {0.9287} \\
+        51 & {0.8698} & {0.9298} \\
+        \bottomrule
+    \end{tabular}
+    \captionof*{figure}{\textit{Performance Metrics over various k}}
 \end{minipage}
+    
 
 \subsection*{Tuning Hyper-parameters}
 For the neural network, we've chosen an $\alpha$ of 0.05 and a regularization constant of $\lambda=0.01$. At first, with a $\lambda=0$ and $\alpha=0.50$, the model had good performance but a quick convergence in the training curve.
@@ -168,7 +204,7 @@ include passenger class, ticket fare, and gender. With three main features impac
 
     \begin{tabular}{ll}
         \toprule
-        & Model 1 \\
+        & Neural Network \\
         \midrule
         Learning Rate $\alpha$ & 0.0400 \\
         Regularization $\lambda$ & 0.0900 \\
@@ -187,13 +223,148 @@ include passenger class, ticket fare, and gender. With three main features impac
     \captionof*{figure}{\textit{Test cost over 87,700 instances}}
 \end{minipage}
 
+\begin{center}
+    \texttt{Decision Tree}
+
+    ...
+\end{center}
+\begin{minipage}{0.49\textwidth}
+    \centering 
+
+    graph here
+    \vspace{30pt}
+
+    \centering
+    \begin{tabular}{lc}
+        \toprule
+        & Decision Tree \\
+        \midrule
+        Maximum Depth & $k$ \\
+        Mean Accuracy & ? \\
+        Mean F1-score & ? \\
+        \bottomrule
+    \end{tabular}
+\end{minipage}
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \begin{tabular}{rrr}
+        \toprule
+        Maximum depth & Test Accuracy & Test F-score \\
+        \midrule
+        1 & {0.8083} & {0.8930} \\
+        6 & {0.3042} & {0.4609} \\
+        11 & {0.2437} & {0.3894} \\
+        16 & {0.2437} & {0.3894} \\
+        21 & {0.2437} & {0.3894} \\
+        26 & {0.2437} & {0.3894} \\
+        31 & {0.2437} & {0.3894} \\
+        36 & {0.2437} & {0.3894} \\
+        41 & {0.2437} & {0.3894} \\
+        46 & {0.2437} & {0.3894} \\
+        51 & {0.2437} & {0.3894} \\
+        56 & {0.2437} & {0.3894} \\
+        61 & {0.2437} & {0.3894} \\
+        66 & {0.2437} & {0.3894} \\
+        71 & {0.2437} & {0.3894} \\
+        76 & {0.2437} & {0.3894} \\
+        81 & {0.2437} & {0.3894} \\
+        86 & {0.2437} & {0.3894} \\
+        91 & {0.2437} & {0.3894} \\
+        96 & {0.2437} & {0.3894} \\
+        \bottomrule
+    \end{tabular}
+\end{minipage}
+
 \subsection*{Tuning Hyper-parameters}
 \subsection*{Analysis}
 
 
 \newpage
 \section*{Loan Eligibility Dataset}
+
 \subsection*{Performance Metrics}
+\begin{center}
+    \texttt{Decision Tree}
+\end{center}
+\begin{minipage}{0.49\textwidth}
+    \centering 
+    
+    graph here
+    \vspace{30pt}
+
+    \centering
+    \begin{tabular}{lc}
+        \toprule
+        & Decision Tree \\
+        \midrule
+        Maximum Depth & $k$ \\
+        Mean Accuracy & ? \\
+        Mean F1-score & ? \\
+        \bottomrule
+    \end{tabular}
+\end{minipage}
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \begin{tabular}{rrr}
+        \toprule
+        Maximum depth & Test Accuracy & Test F-score \\
+        \midrule
+        1 & {0.8083} & {0.8930} \\
+        6 & {0.3042} & {0.4609} \\
+        11 & {0.2437} & {0.3894} \\
+        16 & {0.2437} & {0.3894} \\
+        21 & {0.2437} & {0.3894} \\
+        26 & {0.2437} & {0.3894} \\
+        31 & {0.2437} & {0.3894} \\
+        36 & {0.2437} & {0.3894} \\
+        41 & {0.2437} & {0.3894} \\
+        46 & {0.2437} & {0.3894} \\
+        51 & {0.2437} & {0.3894} \\
+        56 & {0.2437} & {0.3894} \\
+        61 & {0.2437} & {0.3894} \\
+        66 & {0.2437} & {0.3894} \\
+        71 & {0.2437} & {0.3894} \\
+        76 & {0.2437} & {0.3894} \\
+        81 & {0.2437} & {0.3894} \\
+        86 & {0.2437} & {0.3894} \\
+        91 & {0.2437} & {0.3894} \\
+        96 & {0.2437} & {0.3894} \\
+        \bottomrule
+    \end{tabular}
+\end{minipage}
+\begin{center}
+    \texttt{Random Forrest}
+\end{center}
+
+\begin{minipage}{0.49\textwidth}
+    \centering
+
+    \includegraphics*[width=\textwidth]{./src/figures/Loan-accuracy_final.png}
+    
+\end{minipage}
+\hfill
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \includegraphics*[width=\textwidth]{./src/figures/Loan-f1-score_final.png}
+
+\end{minipage}
+\begin{center}
+    \begin{tabular}{rrrrr}
+    \toprule
+    accuracy & precision & recall & f1-score & ntree \\
+    \midrule
+    0.6667 & 0.5729 & 0.5493 & 0.5609 & 1 \\
+    0.7354 & 0.6875 & 0.6440 & 0.6650 & 2 \\
+    0.7271 & 0.6755 & 0.6286 & 0.6512 & 5 \\
+    0.7208 & 0.7436 & 0.5585 & 0.6379 & 10 \\
+    0.7292 & 0.8348 & 0.5627 & 0.6722 & 20 \\
+    0.7021 & 0.6756 & 0.5281 & 0.5928 & 30 \\
+    0.7104 & 0.7538 & 0.5360 & 0.6265 & 50 \\
+    \bottomrule
+    \end{tabular}
+    \captionof*{figure}{\textit{Performance metrics across various $n$-tree}}
+\end{center}
+
 \subsection*{Tuning Hyper-parameters}
 \subsection*{Analysis}
 
@@ -201,6 +372,55 @@ include passenger class, ticket fare, and gender. With three main features impac
 \section*{Oxford Parkinson's Disease Dataset}
 \subsection*{Performance Metrics}
 
+\begin{center}
+    \texttt{k-NN Algorithm}
+\end{center}
+\begin{minipage}{0.49\textwidth}
+    \centering
+
+    graph here
+    \vspace{30pt}
+
+    \begin{tabular}{lc}
+        \toprule
+        & kNN \\
+        \midrule
+        Neighbors $k$ & $k$ \\
+        Mean Accuracy & ? \\
+        Mean F1-score & ? \\
+        \bottomrule
+    \end{tabular}
+\end{minipage}
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \begin{tabular}{rrr}
+    \toprule
+        k & Test Accuracy & Test F-Score \\
+        \midrule
+        1 & {0.5947} & {0.7367} \\
+        6 & {0.2789} & {0.4319} \\
+        11 & {0.2789} & {0.4319} \\
+        16 & {0.2474} & {0.3921} \\
+        21 & {0.2474} & {0.3893} \\
+        26 & {0.2474} & {0.3893} \\
+        31 & {0.2474} & {0.3893} \\
+        36 & {0.2474} & {0.3893} \\
+        41 & {0.2579} & {0.4030} \\
+        46 & {0.4211} & {0.5625} \\
+        51 & {0.6000} & {0.7320} \\
+        56 & {0.7211} & {0.8350} \\
+        61 & {0.7526} & {0.8561} \\
+        66 & {0.7526} & {0.8561} \\
+        71 & {0.7526} & {0.8561} \\
+        76 & {0.7526} & {0.8561} \\
+        81 & {0.7526} & {0.8561} \\
+        86 & {0.7526} & {0.8561} \\
+        91 & {0.7526} & {0.8561} \\
+        96 & {0.7526} & {0.8561} \\
+        101 & {0.7526} & {0.8561} \\
+    \bottomrule
+    \end{tabular}
+\end{minipage}
 \begin{center}
     \texttt{Neural Network}
 
@@ -212,7 +432,7 @@ include passenger class, ticket fare, and gender. With three main features impac
     
     \begin{tabular}{ll}
         \toprule
-        & Model 1 \\
+        & Neural Network \\
         \midrule
         Learning Rate $\alpha$ & 0.1000 \\
         Regularization $\lambda$ & 0.0001 \\
@@ -224,13 +444,13 @@ include passenger class, ticket fare, and gender. With three main features impac
     \end{tabular}
 
         
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.49\textwidth}
-        \centering
-        \includegraphics*[width=0.9\textwidth]{./src/figures/Parikinson's_train_cost.png}
-        \captionof*{figure}{\textit{Training Cost Over 19,500 Instances}}
-    \end{minipage}
+\end{minipage}
+\hfill
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \includegraphics*[width=0.9\textwidth]{./src/figures/Parikinson's_train_cost.png}
+    \captionof*{figure}{\textit{Training Cost Over 19,500 Instances}}
+\end{minipage}
 \subsection*{Tuning Hyper-parameters}
 \subsection*{Analysis}
 
