@@ -115,7 +115,27 @@ The architecture was chosen because it had the lowest accuracy variance between 
 
 \newpage
 \section*{Titanic Dataset}
-This dataset required some extra pre-processing. Originally, the data had a 'Name' feature which contained 
+We pre-processed some of the titanic dataset. At first, there was a 'Sex' column which was encoded into a 'Male' column indicating a 1 if the 'Sex' of a given instance contained 'male' and a 0 if an instance contained 'female'.
+There was also a 'Name' column which was removed entirely. At first, we attempted to process this by encoding every English letter into a number. This resulted in a very large data-frame that led to poor results after processing. 
+\\
+
+Afterwards, we tried to one-hot encode the first word of the 'Name' column which indicated the title of a person. Because this dataset represents a time when a person's title had greater significance, we figured that there would be differences in the survival rates between prestigious and non-prestigious titles (such as 'Rev' or 'Master' versus 'Mr' or 'Miss').
+We also hypothesized that persons with the title 'Rev,' which indicates religious affiliation, would be less likely to survive as we thought that their role as a religious figure would influence them to stay on the ship for longer than others. Indeed, every reverend in the dataset did not survive.
+\\
+
+Empirically, we found that this didn't work well, which led to the removal of the 'Name' feature in the dataset.
+Perhaps this is because 'Pclass' contains the ticket class of a given passenger, which mitigates the role that the 'Name' column plays in indicating the socio-economic status of a passenger. Additionally,
+the added dimensionality of encoding around 8 titles could have mitigated the importance of the un-altered columns.
+\\
+
+The choice of applying a neural network for this task can be justified by it's performance (speed) and ability to learn complex patterns. 
+It's arguably the easiest model to tune with respect to the datasets this paper presents.
+\\
+
+The choice of applying a decision tree for this task is natural as well. There are a number of more important features that a high-bias model can benefit from. These
+include passenger class, ticket fare, and gender. With three main features impacting survivability, we can benefit from a decision tree by quickly sub-setting the dataset on those features.
+
+\subsection*{Tuning Hyper-parameters}
 
 \subsection*{Analysis}
 
