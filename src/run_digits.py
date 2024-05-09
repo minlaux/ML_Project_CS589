@@ -139,6 +139,12 @@ def main():
     # list to store result of each k value
     results = []
 
+    acc_mean = []
+    acc_sd = []
+
+    f_mean = []
+    f_sd = []
+
     # perform cross-validation for each value of k
     for k in k_values:
         train_acc, test_acc, test_f = k_fold_cross_validation(digits_x, digits_y, num_folds, k)
@@ -146,6 +152,12 @@ def main():
         # calculate mean accuracy and F-score for testing data
         mean_test_accuracy = np.mean(test_acc)
         mean_test_f_score = np.mean(test_f)
+
+        acc_mean.append(np.mean(test_acc))
+        acc_sd.append(np.std(test_acc))
+
+        f_mean.append(np.mean(test_f))
+        f_sd.append(np.std(test_f))
 
         results.append({'k': k, 'test_accuracy': mean_test_accuracy, 'test_f_score': mean_test_f_score})
 
@@ -155,76 +167,34 @@ def main():
     print(results_df)
     print(results_df.to_latex(float_format="{%.4f}"))
 
+    # plot testing accuracy
+    plt.plot(k_values, acc_mean)
+    # plot with standard deviation
+    plt.errorbar(k_values, acc_mean, yerr = acc_sd, fmt = 'o', color = 'red')
+    plt.xlabel('Value of k')
+    plt.ylabel('Accuracy')
+    plt.title('Accuracy of k-NN Model Over Different Values of k')
+    plt.legend()
+    plt.grid(True)
+    # set x-axis spacing
+    plt.xticks(np.arange(min(k_values), max(k_values) + 1, 4))
+    plt.show()
+    plt.close()
 
-    # train_acc, test_acc, test_f = k_fold_cross_validation(digits_x, digits_y, num_folds, k)
-    # #print("Predictions:", predictions)
-    # # print("Training accuracy:", train_acc)
-    # # print("Testing accuracy:", test_acc)
-    # # print("Testing F-Score:", test_f)
-    # print("For", k, "nearest neighbours \n")
-    # print("Test accuracy:", np.mean(test_acc))
-    # print("Test F-Score:", np.mean(test_f))
 
-
-    # prints 64 attributes of a random digit and its class
-    # shows the digit on the screen
-    # digit_to_show = np.random.choice(range(N), 1)[0]
-    # print("Attributes:", digits_x[digit_to_show])
-    # print("Class:", digits_y[digit_to_show])
-
-    # plt.imshow(np.reshape(digits_x[digit_to_show], (8,8)))
-    # plt.show()
+    # plot testing F1-score
+    plt.plot(k_values, f_mean)
+    # plot with standard deviation
+    plt.errorbar(k_values, f_mean, yerr = f_sd, fmt = 'o', color = 'red')
+    plt.xlabel('Value of k')
+    plt.ylabel('F1 Score')
+    plt.title('F1 Score of k-NN Model Over Different Values of k')
+    plt.legend()
+    plt.grid(True)
+    # set x-axis spacing
+    plt.xticks(np.arange(min(k_values), max(k_values) + 1, 4))
+    plt.show()
+    plt.close()
 
 if __name__ == "__main__":
     main()
-
-
-
-
-# # import digits dataset
-# digits = datasets.load_digits()
-# # 10 classes: 0-9
-# # 8x8=64 numerical attributes (greyscale values)
-# # 1797 instances
-
-
-# ##### EXAMPLE FROM SCIKIT-LEARN WEBSITE #####
-# digits = datasets.load_digits(return_X_y=True)
-# digits_dataset_X = digits[0]
-# digits_dataset_y = digits[1]
-# N = len(digits_dataset_X)
-
-# # prints 64 attributes of a random digit and its class
-# # shows the digit on the screen
-# digit_to_show = np.random.choice(range(N), 1)[0]
-# print("Attributes:", digits_dataset_X[digit_to_show])
-# print("Class:", digits_dataset_y[digit_to_show])
-
-# plt.imshow(np.reshape(digits_dataset_X[digit_to_show], (8,8)))
-# plt.show()
-
-
-
-# _, axes = plt.subplots(nrows=1, ncols=4, figsize=(10, 3))
-# for ax, image, label in zip(axes, digits.images, digits.target):
-#     ax.set_axis_off()
-#     ax.imshow(image, cmap=plt.cm.gray_r, interpolation="nearest")
-#     ax.set_title("Training: %i" % label)
-
-# # flatten the images
-# n_samples = len(digits.images)
-# data = digits.images.reshape((n_samples, -1))
-
-# # Create a classifier: a support vector classifier
-# clf = svm.SVC(gamma=0.001)
-
-# # Split data into 50% train and 50% test subsets
-# X_train, X_test, y_train, y_test = train_test_split(
-#     data, digits.target, test_size=0.5, shuffle=False
-# )
-
-# # Learn the digits on the train subset
-# clf.fit(X_train, y_train)
-
-# # Predict the value of the digit on the test subset
-# predicted = clf.predict(X_test)
