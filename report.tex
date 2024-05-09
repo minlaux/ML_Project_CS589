@@ -6,6 +6,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{hyperref}
+\usepackage{caption}
 
 \usepackage{booktabs}
 \usepackage[table]{xcolor}
@@ -68,6 +69,12 @@ converges to zero as we add more features and normalize them. This (has/hasn't) 
 \subsection*{Performance Metrics}
 
 %we can adjust for three models later
+\begin{center}
+    \texttt{Neural Network}
+    
+    //TODO fix title
+    \includegraphics*[width=0.8\textwidth]{./src/figures/Digits-test-cost.png}
+\end{center}
 
 \begin{minipage}{0.49\textwidth}
     \centering
@@ -84,22 +91,36 @@ converges to zero as we add more features and normalize them. This (has/hasn't) 
         Mean Test Cost & 59.3100 \\
         \bottomrule
     \end{tabular}
+\end{minipage}
+\hfill
+\begin{minipage}{0.49\textwidth}
+    \centering
+    
+    \includegraphics*[width=1\textwidth]{./src/figures/Digits_train_cost.png}
+    \captionof*{figure}{\textit{Test cost over 179,700 instances}}
+    \vfill
+\end{minipage}
+\begin{minipage}{0.49\textwidth}
+    \centering
+
+    \begin{tabular}{lc}
+        \toprule
+         & kNN \\
+        \midrule
+        Neighbors $k$ & $k$ \\
+        Mean Accuracy & ? \\
+        Mean F1-score & ? \\
+        \bottomrule
+    \end{tabular}
 
 \end{minipage}
     \hfill
 \begin{minipage}{0.49\textwidth}
     \centering
-
-    \begin{tabular}{lc}
-    \toprule
-     & kNN \\
-    \midrule
-    Neighbors $k$ & $k$ \\
-    Mean Accuracy & ? \\
-    Mean F1-score & ? \\
-    \bottomrule
-    \end{tabular}
-
+    
+    \includegraphics*[width=1\textwidth]{./src/figures/Digits_train_cost.png}
+    \captionof*{figure}{\textit{kNN Curve}}
+    \vfill
 \end{minipage}
 
 \subsection*{Tuning Hyper-parameters}
@@ -135,18 +156,37 @@ It's arguably the easiest model to tune with respect to the datasets this paper 
 The choice of applying a decision tree for this task is natural as well. There are a number of more important features that a high-bias model can benefit from. These
 include passenger class, ticket fare, and gender. With three main features impacting survivability, we can benefit from a decision tree by quickly sub-setting the dataset on those features.
 \subsection*{Performance Metrics}
-\begin{tabular}{lc}
-    \toprule
-     & Neural Network \\
-    \midrule
-    Learning Rate $\alpha$ & 0.0400 \\
-    Regularization $\lambda$ & 0.0900 \\
-    Architecture & [6, 4, 2] \\
-    Mean Accuracy & 0.9582 \\
-    Mean F1-score & 0.9567 \\
-    Mean Test Cost & 84.6300 \\
-    \bottomrule
-\end{tabular}
+
+\begin{center}
+    \texttt{Neural Network}
+
+    \includegraphics*[width=0.8\textwidth]{./src/figures/Titanic-test-cost.png}
+\end{center}
+
+\begin{minipage}{0.49\textwidth}
+    \centering
+
+    \begin{tabular}{ll}
+        \toprule
+        & Model 1 \\
+        \midrule
+        Learning Rate $\alpha$ & 0.0400 \\
+        Regularization $\lambda$ & 0.0900 \\
+        Architecture & [6, 4, 2] \\
+        Mean Accuracy & 0.9663 \\
+        Mean F1-score & 0.9652 \\
+        Mean Test Cost & 84.8500 \\
+        \bottomrule
+    \end{tabular}
+    
+\end{minipage}
+\hfill
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \includegraphics*[width=0.9\textwidth]{./src/figures/Titanic_train_cost.png}
+    \captionof*{figure}{\textit{Test cost over 87,700 instances}}
+\end{minipage}
+
 \subsection*{Tuning Hyper-parameters}
 \subsection*{Analysis}
 
@@ -160,6 +200,37 @@ include passenger class, ticket fare, and gender. With three main features impac
 \newpage
 \section*{Oxford Parkinson's Disease Dataset}
 \subsection*{Performance Metrics}
+
+\begin{center}
+    \texttt{Neural Network}
+
+    \includegraphics*[width=0.8\textwidth]{./src/figures/Parikinson's-test-cost.png}
+\end{center}
+
+\begin{minipage}{0.49\textwidth}
+    \centering
+    
+    \begin{tabular}{ll}
+        \toprule
+        & Model 1 \\
+        \midrule
+        Learning Rate $\alpha$ & 0.1000 \\
+        Regularization $\lambda$ & 0.0001 \\
+        Architecture & [22, 12, 2] \\
+        Mean Accuracy & 0.9226 \\
+        Mean F1-score & 0.8940 \\
+        Mean Test Cost & 13.4800 \\
+        \bottomrule
+    \end{tabular}
+
+        
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics*[width=0.9\textwidth]{./src/figures/Parikinson's_train_cost.png}
+        \captionof*{figure}{\textit{Training Cost Over 19,500 Instances}}
+    \end{minipage}
 \subsection*{Tuning Hyper-parameters}
 \subsection*{Analysis}
 
