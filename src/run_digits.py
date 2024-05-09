@@ -7,17 +7,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
-def normalise(instance):
+def normalise(x):
     """normalises values in instance to [0, 1] using min/max method"""
-    min_x = min(instance)
-    max_x = max(instance)
+    # access each column
+    for column_index in range(x.shape[1]):
+        column_vals = x[:, column_index]
+        min_x = min(column_vals)
+        max_x = max(column_vals)
 
-    # return instance if range is zero
-    if max_x == min_x:
-        return instance
-    else:
-        norm = [(x - min_x) / (max_x - min_x) for x in instance]
-        return norm
+        # check if range is zero
+        if max_x == min_x:
+            # return original values
+            x[:, column_index] = column_vals
+        else:
+            # normalise current column
+            x[:, column_index] = (column_vals - min_x) / (max_x - min_x)
+    return x
 
 def kfold_indices(x: list, k: int):
     """
@@ -41,11 +46,11 @@ def split_folds(fold_indices: list, i: int):
     
     return train_indices, test_indices
 
-def k_fold_cross_validation(x, y, n: int, k: int):
+def k_fold_cross_validation(x, y, n_folds: int, k: int):
     """
-    n: number of folds for cross-validation
+    n_folds: number of folds for cross-validation
     """
-    fold_indices = kfold_indices(x, n)
+    fold_indices = kfold_indices(x, n_folds)
 
     # record evaluation metrics
     accuracy_metrics = []
@@ -55,7 +60,7 @@ def k_fold_cross_validation(x, y, n: int, k: int):
 
     all_predictions = []
     
-    for i in range(n):
+    for i in range(n_folds):
         # split data into training and testing sets
         train_indices, test_indices = split_folds(fold_indices, i)
         x_train, y_train = x[train_indices], y[train_indices]
@@ -69,24 +74,22 @@ def k_fold_cross_validation(x, y, n: int, k: int):
         predictions = knn.predict(x_test)
         all_predictions.append(predictions)
         
-        # evaluate predictions
-        accuracy_metrics.append(accuracy(predictions, y_test))
-        prec, recall = precision_recall(predictions, y_test)
+        # # evaluate predictions
+        # accuracy_metrics.append(accuracy(predictions, y_test))
+        # prec, recall = precision_recall(predictions, y_test)
 
-        precision_metrics.append(sum(prec)/len(prec))
-        recall_metrics.append(sum(recall)/len(recall))
+        # precision_metrics.append(sum(prec)/len(prec))
+        # recall_metrics.append(sum(recall)/len(recall))
         
-        f1 = f_score(precision_metrics, recall_metrics, beta)
-        f1_metrics.append(sum(f1)/len(f1))
+        # f1 = f_score(precision_metrics, recall_metrics, beta)
+        # f1_metrics.append(sum(f1)/len(f1))
     
     print("precision:", precision_metrics)
     print("recall:", recall_metrics)
     print("y:", y_test)
     print("classes:", np.unique(y_test))
 
-    return accuracy_metrics, f1_metrics
-
-
+    return all_predictions #accuracy_metrics, f1_metrics
 
 
 def main():
@@ -100,6 +103,9 @@ def main():
     digits_x = digits[0]
     digits_y = digits[1]
     N = len(digits_x)
+
+    predictions = k_fold_cross_validation(digits_x, digits_y, 10, 10)
+    print("Predictions:", predictions)
 
     # prints 64 attributes of a random digit and its class
     # shows the digit on the screen
