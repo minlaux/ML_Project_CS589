@@ -134,20 +134,33 @@ It's arguably the easiest model to tune with respect to the datasets this paper 
 
 The choice of applying a decision tree for this task is natural as well. There are a number of more important features that a high-bias model can benefit from. These
 include passenger class, ticket fare, and gender. With three main features impacting survivability, we can benefit from a decision tree by quickly sub-setting the dataset on those features.
-
+\subsection*{Performance Metrics}
+\begin{tabular}{lc}
+    \toprule
+     & Neural Network \\
+    \midrule
+    Learning Rate $\alpha$ & 0.0400 \\
+    Regularization $\lambda$ & 0.0900 \\
+    Architecture & [6, 4, 2] \\
+    Mean Accuracy & 0.9582 \\
+    Mean F1-score & 0.9567 \\
+    Mean Test Cost & 84.6300 \\
+    \bottomrule
+\end{tabular}
 \subsection*{Tuning Hyper-parameters}
-
 \subsection*{Analysis}
 
 
 \newpage
 \section*{Loan Eligibility Dataset}
-
+\subsection*{Performance Metrics}
+\subsection*{Tuning Hyper-parameters}
 \subsection*{Analysis}
 
 \newpage
 \section*{Oxford Parkinson's Disease Dataset}
-
+\subsection*{Performance Metrics}
+\subsection*{Tuning Hyper-parameters}
 \subsection*{Analysis}
 
 \end{document}
