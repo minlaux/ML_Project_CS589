@@ -12,17 +12,69 @@
 \usepackage{graphicx}
 \usepackage[table]{xcolor}
 
+%removes indent
+\setlength{\parindent}{0pt}
 
 % Document Setup
-\title{CS 589 Final}
+\title{Exploring Machine Learning Model Performance across Diverse Datasets: A Comparative Analysis}
 \author{Yan Mazheika \and Polina Petrova}
 \date{\today}
 
 \begin{document}
-
 \maketitle
 
+\section*{Introduction}
+This report provides an analysis of the application of various machine learning projects on several datasets.
+The goal is to identify the best-use scenarios of model variants given the nature of input data.
+In this report, the authors analyze the
+\begin{itemize}
+    \item Decision Tree, \textit{provided by Polina Petrova}
+    \item k Nearest Neighbors, \textit{provided by Polina Petrova}
+    \item Neural Network, \textit{provided by Yan Mazheika}
+    \item Random Forrest, \textit{provided by Yan Mazheika}
+\end{itemize}
+against the handwritten digits, titanic survival, loan eligibility, and Parkinson's classification datasets.
+\\
+
+It is our aim to explain the nature of the data, our models, and the performance of these classifiers. Throughout our report,
+we justify our algorithm choice for the given dataset and our choice of hyper-parameters for the tuning of the algorithm. These insights
+are for the reader's benefit; we also aim to provide insight into how to solve novel machine problems, which algorithms may work best, and how
+to adjust their hyper-parameters for optimal performance.
+
+
+\newpage
 \section*{Digits Dataset}
 
+\begin{tabular}{ll}
+    \toprule
+     & Neural Network \\
+    \midrule
+    Learning Rate $\alpha$ & 0.0500 \\
+    Regularization $\lambda$ & 0.0100 \\
+    Architecture & [64, 32, 32, 10] \\
+    Mean Accuracy & 0.9962 \\
+    Mean F1-score & 0.9809 \\
+    Mean Test Cost & 59.3100 \\
+    \bottomrule
+\end{tabular}
+
+\subsection*{Analysis}
+
+
+\newpage
+\section*{Titanic Dataset}
+
+\subsection*{Analysis}
+
+
+\newpage
+\section*{Loan Eligibility Dataset}
+
+\subsection*{Analysis}
+
+\newpage
+\section*{Oxford Parkinson's Disease Dataset}
+
+\subsection*{Analysis}
 
 \end{document}
