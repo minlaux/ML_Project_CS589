@@ -155,6 +155,7 @@ def main():
 
     # range of maximum tree depth values to evaluate
     max_depth_vals = range(1, 100, 5)
+    #max_depth_vals = [1, 2, 3, 4, 5]
 
     # list to store result of each k value
     results = []
@@ -173,6 +174,7 @@ def main():
     results_df = pd.DataFrame(results)
 
     print(results_df)
+    print(results_df.to_latex(float_format="{%.4f}"))
 
 
 if __name__ == "__main__":

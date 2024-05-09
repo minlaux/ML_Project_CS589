@@ -150,6 +150,7 @@ def main():
     # create dataframe from the results
     results_df = pd.DataFrame(results)
     print(results_df)
+    print(results_df.to_latex(float_format="{%.4f}"))
 
     # train_acc, test_acc, test_f = k_fold_cross_validation(park_x, park_y, num_folds, k)
     # # #print("Predictions:", predictions)

@@ -153,6 +153,7 @@ def main():
     results_df = pd.DataFrame(results)
 
     print(results_df)
+    print(results_df.to_latex(float_format="{%.4f}"))
 
 
     # train_acc, test_acc, test_f = k_fold_cross_validation(digits_x, digits_y, num_folds, k)
