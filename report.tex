@@ -55,9 +55,9 @@ We use cross-validation of k=10 folds when testing the performance of our models
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
 % Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+
+
 \newgeometry{left=1cm,right=1cm}
-
-
 \begin{table}[h]
     \begin{tabular}{l|cc|cc|cc|cc}
     Dataset:             & \multicolumn{2}{c|}{Digits}                                   & \multicolumn{2}{c|}{Titanic}                                  & \multicolumn{2}{c|}{Loan}                                     & \multicolumn{2}{c}{Parkinson's}                               \\ \hline
@@ -121,6 +121,7 @@ converges to zero as we add more features and normalize them. This (has/hasn't) 
     \vfill
 \end{minipage}
 
+\newgeometry{left=1cm,right=1cm}
 \begin{center}
     \texttt{k-NN Algorithm}
 \end{center}
@@ -128,8 +129,9 @@ converges to zero as we add more features and normalize them. This (has/hasn't) 
 \begin{minipage}{0.49\textwidth}
     \centering
 
-    \textbf{graph here}
-    \vspace{30pt}
+    \includegraphics*[width=\textwidth]{./src/figures/Accuracy Digits.png}
+
+    \includegraphics*[width=\textwidth]{./src/figures/F-Score Digits.png}
     
     \begin{tabular}{lc}
         \toprule
@@ -140,10 +142,11 @@ converges to zero as we add more features and normalize them. This (has/hasn't) 
         Mean F1-score & ? \\
         \bottomrule
     \end{tabular}
-    \captionof*{figure}{\textit{Preferred Model Variant}}
+    \captionof*{figure}{\textit{Metrics for Preferred Model Variant}}
 \end{minipage}
 \begin{minipage}{0.49\textwidth}
     \centering
+    \vfill
     \begin{tabular}{lrrr}
         \toprule
         $k$ & Test Accuracy & Test F-Score \\
@@ -177,8 +180,9 @@ converges to zero as we add more features and normalize them. This (has/hasn't) 
         \bottomrule
     \end{tabular}
     \captionof*{figure}{\textit{Performance Metrics over various k}}
+    \vfill
 \end{minipage}
-    
+\restoregeometry
 
 \subsection*{Tuning Hyper-parameters}
 For the neural network, we've chosen an $\alpha$ of 0.05 and a regularization constant of $\lambda=0.01$. At first, with a $\lambda=0$ and $\alpha=0.50$, the model had good performance but a quick convergence in the training curve.
@@ -244,26 +248,17 @@ include passenger class, ticket fare, and gender. With three main features impac
     \captionof*{figure}{\textit{Test cost over 87,700 instances}}
 \end{minipage}
 
+\newgeometry{left=1cm,right=1cm}
 \begin{center}
     \texttt{Decision Tree}
-
 \end{center}
+
 \begin{minipage}{0.49\textwidth}
     \centering 
 
-    \textbf{graph here}
-    \vspace{30pt}
+    \includegraphics*[width=\textwidth]{./src/figures/Accuracy Titanic.png}
+    \includegraphics*[width=\textwidth]{./src/figures/F-Score Titanic.png}
 
-    \centering
-    \begin{tabular}{lc}
-        \toprule
-        & Decision Tree \\
-        \midrule
-        Maximum Depth & $k$ \\
-        Mean Accuracy & ? \\
-        Mean F1-score & ? \\
-        \bottomrule
-    \end{tabular}
 \end{minipage}
 \begin{minipage}{0.49\textwidth}
     \centering
@@ -281,9 +276,22 @@ include passenger class, ticket fare, and gender. With three main features impac
         8 & {0.4216} & {0.5802} \\
         9 & {0.4216} & {0.5802} \\
         \bottomrule
-        \end{tabular}
-\end{minipage}
+    \end{tabular}
 
+
+    \vspace*{30pt}
+    \begin{tabular}{lc}
+        \toprule
+        & Decision Tree \\
+        \midrule
+        Maximum Depth & $k$ \\
+        Mean Accuracy & ? \\
+        Mean F1-score & ? \\
+        \bottomrule
+    \end{tabular}
+    \captionof*{figure}{\textit{Metrics for Preferred Model Variant}}
+\end{minipage}
+\restoregeometry
 \subsection*{Tuning Hyper-parameters}
 \subsection*{Analysis}
 
@@ -292,14 +300,17 @@ include passenger class, ticket fare, and gender. With three main features impac
 \section*{Loan Eligibility Dataset}
 
 \subsection*{Performance Metrics}
+
+\newgeometry{left=1cm,right=1cm}
 \begin{center}
     \texttt{Decision Tree}
 \end{center}
+
 \begin{minipage}{0.49\textwidth}
     \centering 
     
-    \textbf{graph here}
-    \vspace{30pt}
+    \includegraphics*[width=\textwidth]{./src/figures/Accuracy Loan.png}
+    \includegraphics*[width=\textwidth]{./src/figures/F-Score Loan.png}
 
     \centering
     \begin{tabular}{lc}
@@ -311,6 +322,7 @@ include passenger class, ticket fare, and gender. With three main features impac
         Mean F1-score & ? \\
         \bottomrule
     \end{tabular}
+    \captionof*{figure}{\textit{Metrics for Preferred Model Variant}}
 \end{minipage}
 \begin{minipage}{0.49\textwidth}
     \centering
@@ -345,10 +357,12 @@ include passenger class, ticket fare, and gender. With three main features impac
         \bottomrule
     \end{tabular}
 \end{minipage}
+\restoregeometry
+
+\newgeometry{left=1cm,right=1cm}
 \begin{center}
     \texttt{Random Forrest}
 \end{center}
-
 \begin{minipage}{0.49\textwidth}
     \centering
 
@@ -359,8 +373,8 @@ include passenger class, ticket fare, and gender. With three main features impac
 \begin{minipage}{0.49\textwidth}
     \centering
     \includegraphics*[width=\textwidth]{./src/figures/Loan-f1-score_final.png}
-
 \end{minipage}
+
 \begin{center}
     \begin{tabular}{rrrrr}
     \toprule
@@ -377,6 +391,7 @@ include passenger class, ticket fare, and gender. With three main features impac
     \end{tabular}
     \captionof*{figure}{\textit{Performance metrics across various $n$-tree}}
 \end{center}
+\restoregeometry
 
 \subsection*{Tuning Hyper-parameters}
 \subsection*{Analysis}
@@ -385,14 +400,15 @@ include passenger class, ticket fare, and gender. With three main features impac
 \section*{Oxford Parkinson's Disease Dataset}
 \subsection*{Performance Metrics}
 
+\newgeometry{left=1cm,right=1cm}
 \begin{center}
     \texttt{k-NN Algorithm}
 \end{center}
 \begin{minipage}{0.49\textwidth}
     \centering
 
-    \textbf{graph here}
-    \vspace{30pt}
+    \includegraphics*[width=\textwidth]{./src/figures/Accuracy Parkinsons.png}
+    \includegraphics*[width=\textwidth]{./src/figures/F-Score Parkinsons.png}
 
     \begin{tabular}{lc}
         \toprule
@@ -403,6 +419,7 @@ include passenger class, ticket fare, and gender. With three main features impac
         Mean F1-score & ? \\
         \bottomrule
     \end{tabular}
+    \captionof*{figure}{\textit{Metrics for Preferred Model Variant}}
 \end{minipage}
 \begin{minipage}{0.49\textwidth}
     \centering
@@ -434,6 +451,8 @@ include passenger class, ticket fare, and gender. With three main features impac
     \bottomrule
     \end{tabular}
 \end{minipage}
+\restoregeometry
+
 \begin{center}
     \texttt{Neural Network}
 
