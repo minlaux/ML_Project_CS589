@@ -12,7 +12,8 @@
 \usepackage[table]{xcolor}
 \usepackage{graphicx}
 \usepackage[table]{xcolor}
-
+% \usepackage[table,xcdraw]{xcolor}
+\usepackage{colortbl}
 %removes indent
 \setlength{\parindent}{0pt}
 
@@ -49,6 +50,26 @@ but their fundamental logic stays consistent from previous use cases.
 \\
 
 We use cross-validation of k=10 folds when testing the performance of our models (except for kNN). We also transform the data into the [0,1] range when using the neural network or kNN classifiers.
+
+\subsection*{Performance Overview}
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\newgeometry{left=1cm,right=1cm}
+
+
+\begin{table}[h]
+    \begin{tabular}{l|cc|cc|cc|cc}
+    Dataset:             & \multicolumn{2}{c|}{Digits}                                   & \multicolumn{2}{c|}{Titanic}                                  & \multicolumn{2}{c|}{Loan}                                     & \multicolumn{2}{c}{Parkinson's}                               \\ \hline
+                         & Accuracy                      & F1-Score                      & Accuracy                      & F1-Score                      & Accuracy                      & F1-Score                      & Accuracy                      & F1-Score                      \\ \cline{2-9} 
+    k-NN                 & .8698                         & .9298                         & -                             & -                             & -                             & -                             & ?                             & ?                             \\
+    Decision Tree        & -                             & -                             & .7852                         & .8793                         & \cellcolor[HTML]{C0C0C0}.8083 & \cellcolor[HTML]{C0C0C0}.8930 & -                             & -                             \\
+    Random Forrest       & -                             & -                             & -                             & -                             & .7354                         & .6650                         & -                             & -                             \\
+    Neural Network       & \cellcolor[HTML]{C0C0C0}.9962 & \cellcolor[HTML]{C0C0C0}.9809 & \cellcolor[HTML]{C0C0C0}.9663 & \cellcolor[HTML]{C0C0C0}.9652 & -                             & -                             & \cellcolor[HTML]{C0C0C0}.9226 & \cellcolor[HTML]{C0C0C0}.8940 \\
+    Additional Algorithm & -                             & -                             & -                             & -                             & -                             & -                             & -                             & -                            
+    \end{tabular}
+    \end{table}
+\restoregeometry
 
 \newpage
 \section*{Digits Dataset}
@@ -226,7 +247,6 @@ include passenger class, ticket fare, and gender. With three main features impac
 \begin{center}
     \texttt{Decision Tree}
 
-    ...
 \end{center}
 \begin{minipage}{0.49\textwidth}
     \centering 
@@ -251,28 +271,17 @@ include passenger class, ticket fare, and gender. With three main features impac
         \toprule
         Maximum depth & Test Accuracy & Test F-score \\
         \midrule
-        1 & {0.8083} & {0.8930} \\
-        6 & {0.3042} & {0.4609} \\
-        11 & {0.2437} & {0.3894} \\
-        16 & {0.2437} & {0.3894} \\
-        21 & {0.2437} & {0.3894} \\
-        26 & {0.2437} & {0.3894} \\
-        31 & {0.2437} & {0.3894} \\
-        36 & {0.2437} & {0.3894} \\
-        41 & {0.2437} & {0.3894} \\
-        46 & {0.2437} & {0.3894} \\
-        51 & {0.2437} & {0.3894} \\
-        56 & {0.2437} & {0.3894} \\
-        61 & {0.2437} & {0.3894} \\
-        66 & {0.2437} & {0.3894} \\
-        71 & {0.2437} & {0.3894} \\
-        76 & {0.2437} & {0.3894} \\
-        81 & {0.2437} & {0.3894} \\
-        86 & {0.2437} & {0.3894} \\
-        91 & {0.2437} & {0.3894} \\
-        96 & {0.2437} & {0.3894} \\
+        1 & {0.7852} & {0.8793} \\
+        2 & {0.6386} & {0.7774} \\
+        3 & {0.5898} & {0.7372} \\
+        4 & {0.7125} & {0.8291} \\
+        5 & {0.6784} & {0.7920} \\
+        6 & {0.6295} & {0.7540} \\
+        7 & {0.5227} & {0.6619} \\
+        8 & {0.4216} & {0.5802} \\
+        9 & {0.4216} & {0.5802} \\
         \bottomrule
-    \end{tabular}
+        \end{tabular}
 \end{minipage}
 
 \subsection*{Tuning Hyper-parameters}
@@ -310,6 +319,10 @@ include passenger class, ticket fare, and gender. With three main features impac
         Maximum depth & Test Accuracy & Test F-score \\
         \midrule
         1 & {0.8083} & {0.8930} \\
+        2 & {0.6458} & {0.7657} \\
+        3 & {0.4708} & {0.6357} \\
+        4 & {0.3583} & {0.5139} \\
+        5 & {0.3104} & {0.4606} \\
         6 & {0.3042} & {0.4609} \\
         11 & {0.2437} & {0.3894} \\
         16 & {0.2437} & {0.3894} \\
@@ -452,6 +465,7 @@ include passenger class, ticket fare, and gender. With three main features impac
     \captionof*{figure}{\textit{Training Cost Over 19,500 Instances}}
 \end{minipage}
 \subsection*{Tuning Hyper-parameters}
+.7538 accuracy of random classifier.
 \subsection*{Analysis}
 
 \end{document}
