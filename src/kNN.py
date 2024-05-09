@@ -13,9 +13,14 @@ class KNN:
         self.x = None
         self.y = None
 
-    def euc_dist(self, x1, x2):
-        """calculates euclidean distance between points x1 and x2"""
-        return math.sqrt(sum((x1 - x2) ** 2))
+    def euc_dist(self, instance1, instance2):
+        """calculates euclidean distance between points in two instances"""
+        distance = 0
+
+        for i in range(len(instance1)):
+            distance += ((instance1[i] - instance2[i]) ** 2)
+
+        return math.sqrt(distance)
     
     def fit(self, x, y):
         """fits algorithm to given data"""
@@ -26,10 +31,9 @@ class KNN:
         """predicts class labels for instances in x"""
         predictions = []
 
-        for point1 in data:
+        for instance in data:
             # calculate distances between the current instance and all other training instances
-            distances = [self.euc_dist(point1, point2) for point2 in self.x]
-
+            distances = np.sqrt(np.sum((self.x - instance) ** 2, axis=1))
             # get the indices of the k nearest neighbors
             nn = np.argsort(distances)[: self.k]
 
