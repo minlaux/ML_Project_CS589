@@ -117,10 +117,6 @@ def main():
     # shuffle data
     titanic_data = shuffle(import_data)
 
-    # print("Min age:", titanic_data["Age"].min(), "\n Max age:", titanic_data["Age"].max())
-    # print("Min fare:", titanic_data["Fare"].min(), "\n Max fare:", titanic_data["Fare"].max())
-    print("Min age:", titanic_data["Fare"].mode(), "\n Max age:", titanic_data["Age"].mode())
-
     # extract x and y from data
     titanic_x = titanic_data.iloc[:, 1:].values
     titanic_y = titanic_data.iloc[:, 0].values

@@ -145,77 +145,82 @@ def main():
     # number of folds to use for cross-validation
     num_folds = 10
 
-    # # max depth of decision tree
-    # max_depth = 10
+    # max depth of decision tree
+    max_depth = 3
 
-    # train_acc, test_acc, test_f = k_fold_cross_validation(loan_x, loan_y, num_folds, max_depth)
-    # print("For maximum tree depth", max_depth, ": \n")
-    # print("Test accuracy:", np.mean(test_acc))
-    # print("Test F-Score:", np.mean(test_f))
+    train_acc, test_acc, test_f = k_fold_cross_validation(loan_x, loan_y, num_folds, max_depth)
+    print("For maximum tree depth", max_depth, ": \n")
+    print("Test accuracy:", np.mean(test_acc))
+    print("Test F-Score:", np.mean(test_f))
+    
+    # class_counts = transformed_df["onehotencoder__Loan_Status_Y"].value_counts()
+    # total_instances = len(transformed_df)
+    # class_proportions = class_counts / total_instances
+    # print(class_proportions)
 
-    # range of maximum tree depth values to evaluate
-    max_depth_vals = range(1, 10)
-    #max_depth_vals = [1, 2, 3, 4, 5]
+    # # range of maximum tree depth values to evaluate
+    # max_depth_vals = range(1, 10)
+    # #max_depth_vals = [1, 2, 3, 4, 5]
 
-    # list to store result of each k value
-    results = []
+    # # list to store result of each k value
+    # results = []
 
-    acc_mean = []
-    acc_sd = []
+    # acc_mean = []
+    # acc_sd = []
 
-    f_mean = []
-    f_sd = []
+    # f_mean = []
+    # f_sd = []
 
-    # perform cross-validation for each value of k
-    for max_depth in max_depth_vals:
-        train_acc, test_acc, test_f = k_fold_cross_validation(loan_x, loan_y, num_folds, max_depth)
+    # # perform cross-validation for each value of k
+    # for max_depth in max_depth_vals:
+    #     train_acc, test_acc, test_f = k_fold_cross_validation(loan_x, loan_y, num_folds, max_depth)
         
-        # calculate mean accuracy and F-score for testing data
-        mean_test_accuracy = np.mean(test_acc)
-        mean_test_f_score = np.mean(test_f)
+    #     # calculate mean accuracy and F-score for testing data
+    #     mean_test_accuracy = np.mean(test_acc)
+    #     mean_test_f_score = np.mean(test_f)
 
-        acc_mean.append(np.mean(test_acc))
-        acc_sd.append(np.std(test_acc))
+    #     acc_mean.append(np.mean(test_acc))
+    #     acc_sd.append(np.std(test_acc))
 
-        f_mean.append(np.mean(test_f))
-        f_sd.append(np.std(test_f))
+    #     f_mean.append(np.mean(test_f))
+    #     f_sd.append(np.std(test_f))
 
-        results.append({'Maximum depth': max_depth, 'test_accuracy': mean_test_accuracy, 'test_f_score': mean_test_f_score})
+    #     results.append({'Maximum depth': max_depth, 'test_accuracy': mean_test_accuracy, 'test_f_score': mean_test_f_score})
 
-    # create dataframe from the results
-    results_df = pd.DataFrame(results)
+    # # create dataframe from the results
+    # results_df = pd.DataFrame(results)
 
-    print(results_df)
-    print(results_df.to_latex(float_format="{%.4f}"))
+    # print(results_df)
+    # print(results_df.to_latex(float_format="{%.4f}"))
 
-    # plot testing accuracy
-    plt.plot(max_depth_vals, acc_mean)
-    # plot with standard deviation
-    plt.errorbar(max_depth_vals, acc_mean, yerr = acc_sd, fmt = 'o', color = 'red')
-    plt.xlabel('Max Depth')
-    plt.ylabel('Accuracy')
-    plt.title('Accuracy of Decision Tree Model Over Different Values of Max Depth')
-    plt.legend()
-    plt.grid(True)
-    # set x-axis spacing
-    plt.xticks(np.arange(min(max_depth_vals), max(max_depth_vals) + 1, 1))
-    plt.show()
-    plt.close()
+    # # plot testing accuracy
+    # plt.plot(max_depth_vals, acc_mean)
+    # # plot with standard deviation
+    # plt.errorbar(max_depth_vals, acc_mean, yerr = acc_sd, fmt = 'o', color = 'red')
+    # plt.xlabel('Max Depth')
+    # plt.ylabel('Accuracy')
+    # plt.title('Accuracy of Decision Tree Model Over Different Values of Max Depth')
+    # plt.legend()
+    # plt.grid(True)
+    # # set x-axis spacing
+    # plt.xticks(np.arange(min(max_depth_vals), max(max_depth_vals) + 1, 1))
+    # plt.show()
+    # plt.close()
 
 
-    # plot testing F1-score
-    plt.plot(max_depth_vals, f_mean)
-    # plot with standard deviation
-    plt.errorbar(max_depth_vals, f_mean, yerr = f_sd, fmt = 'o', color = 'red')
-    plt.xlabel('Max Depth')
-    plt.ylabel('F1 Score')
-    plt.title('F1 Score of Decision Tree Model Over Different Values of Max Depth')
-    plt.legend()
-    plt.grid(True)
-    # set x-axis spacing
-    plt.xticks(np.arange(min(max_depth_vals), max(max_depth_vals) + 1, 1))
-    plt.show()
-    plt.close()
+    # # plot testing F1-score
+    # plt.plot(max_depth_vals, f_mean)
+    # # plot with standard deviation
+    # plt.errorbar(max_depth_vals, f_mean, yerr = f_sd, fmt = 'o', color = 'red')
+    # plt.xlabel('Max Depth')
+    # plt.ylabel('F1 Score')
+    # plt.title('F1 Score of Decision Tree Model Over Different Values of Max Depth')
+    # plt.legend()
+    # plt.grid(True)
+    # # set x-axis spacing
+    # plt.xticks(np.arange(min(max_depth_vals), max(max_depth_vals) + 1, 1))
+    # plt.show()
+    # plt.close()
 
 
 if __name__ == "__main__":

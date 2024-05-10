@@ -129,78 +129,74 @@ def main():
     num_folds = 10
 
     # number of neighbours to use for k-NN
-    # k = 25
+    k = 61
 
-    # range of k values to evaluate
-    k_values = range(1, 100, 5)
+    # # range of k values to evaluate
+    # k_values = range(1, 100, 5)
 
-    # list to store result of each k value
-    results = []
+    # # list to store result of each k value
+    # results = []
 
-    acc_mean = []
-    acc_sd = []
+    # acc_mean = []
+    # acc_sd = []
 
-    f_mean = []
-    f_sd = []
+    # f_mean = []
+    # f_sd = []
 
-    # perform cross-validation for each value of k
-    for k in k_values:
-        train_acc, test_acc, test_f = k_fold_cross_validation(park_x, park_y, num_folds, k)
+    # # perform cross-validation for each value of k
+    # for k in k_values:
+    #     train_acc, test_acc, test_f = k_fold_cross_validation(park_x, park_y, num_folds, k)
         
-        # calculate mean accuracy and F-score for testing data
-        mean_test_accuracy = np.mean(test_acc)
-        mean_test_f_score = np.mean(test_f)
+    #     # calculate mean accuracy and F-score for testing data
+    #     mean_test_accuracy = np.mean(test_acc)
+    #     mean_test_f_score = np.mean(test_f)
 
-        acc_mean.append(np.mean(test_acc))
-        acc_sd.append(np.std(test_acc))
+    #     acc_mean.append(np.mean(test_acc))
+    #     acc_sd.append(np.std(test_acc))
 
-        f_mean.append(np.mean(test_f))
-        f_sd.append(np.std(test_f))
+    #     f_mean.append(np.mean(test_f))
+    #     f_sd.append(np.std(test_f))
 
-        results.append({'k': k, 'test_accuracy': mean_test_accuracy, 'test_f_score': mean_test_f_score})
+    #     results.append({'k': k, 'test_accuracy': mean_test_accuracy, 'test_f_score': mean_test_f_score})
 
-    # create dataframe from the results
-    results_df = pd.DataFrame(results)
-    print(results_df)
-    print(results_df.to_latex(float_format="{%.4f}"))
+    # # create dataframe from the results
+    # results_df = pd.DataFrame(results)
+    # print(results_df)
+    # print(results_df.to_latex(float_format="{%.4f}"))
 
-    # train_acc, test_acc, test_f = k_fold_cross_validation(park_x, park_y, num_folds, k)
-    # # #print("Predictions:", predictions)
-    # print("Training accuracy:", train_acc)
-    # # print("Testing accuracy:", test_acc)
-    # # print("Testing F-Score:", test_f)
-    # print("For", k, "nearest neighbours \n")
-    # print("Test accuracy:", np.mean(test_acc))
-    # print("Test F-Score:", np.mean(test_f))
+    train_acc, test_acc, test_f = k_fold_cross_validation(park_x, park_y, num_folds, k)
+    print("For", k, "nearest neighbours \n")
+    print("Test accuracy:", np.mean(test_acc))
+    print("Test F-Score:", np.mean(test_f))
 
-    # plot testing accuracy
-    plt.plot(k_values, acc_mean)
-    # plot with standard deviation
-    plt.errorbar(k_values, acc_mean, yerr = acc_sd, fmt = 'o', color = 'red')
-    plt.xlabel('Value of k')
-    plt.ylabel('Accuracy')
-    plt.title('Accuracy of k-NN Model Over Different Values of k')
-    plt.legend()
-    plt.grid(True)
-    # set x-axis spacing
-    plt.xticks(np.arange(min(k_values), max(k_values) + 1, 10))
-    plt.show()
-    plt.close()
+    # # plot testing accuracy
+    # plt.plot(k_values, acc_mean)
+    # # plot with standard deviation
+    # plt.errorbar(k_values, acc_mean, yerr = acc_sd, fmt = 'o', color = 'red')
+    # plt.xlabel('Value of k')
+    # plt.ylabel('Accuracy')
+    # plt.title('Accuracy of k-NN Model Over Different Values of k')
+    # plt.legend()
+    # plt.grid(True)
+    # # set x-axis spacing
+    # plt.xticks(np.arange(min(k_values), max(k_values) + 1, 10))
+    # plt.show()
+    # plt.close()
 
 
-    # plot testing F1-score
-    plt.plot(k_values, f_mean)
-    # plot with standard deviation
-    plt.errorbar(k_values, f_mean, yerr = f_sd, fmt = 'o', color = 'red')
-    plt.xlabel('Value of k')
-    plt.ylabel('F1 Score')
-    plt.title('F1 Score of k-NN Model Over Different Values of k')
-    plt.legend()
-    plt.grid(True)
-    # set x-axis spacing
-    plt.xticks(np.arange(min(k_values), max(k_values) + 1, 10))
-    plt.show()
-    plt.close()
+    # # plot testing F1-score
+    # plt.plot(k_values, f_mean)
+    # # plot with standard deviation
+    # plt.errorbar(k_values, f_mean, yerr = f_sd, fmt = 'o', color = 'red')
+    # plt.xlabel('Value of k')
+    # plt.ylabel('F1 Score')
+    # plt.title('F1 Score of k-NN Model Over Different Values of k')
+    # plt.legend()
+    # plt.grid(True)
+    # # set x-axis spacing
+    # plt.xticks(np.arange(min(k_values), max(k_values) + 1, 10))
+    # plt.show()
+    # plt.close()
 
 if __name__ == "__main__":
     main()
