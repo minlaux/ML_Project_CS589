@@ -3,5 +3,5 @@
 *.fls
 *.log
 *.out
-*.synctex.gz
-*.pdf
+report.synctex.gz
+report.pdf
