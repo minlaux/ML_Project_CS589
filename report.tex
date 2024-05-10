@@ -11,7 +11,7 @@
 \usepackage{booktabs}
 \usepackage[table]{xcolor}
 \usepackage{graphicx}
-\usepackage[table]{xcolor}
+\usepackage{xcolor}
 % \usepackage[table,xcdraw]{xcolor}
 \usepackage{colortbl}
 %removes indent
@@ -50,15 +50,15 @@ but their fundamental logic stays consistent from previous use cases.
 \\
 
 We use cross-validation of k=10 folds when testing the performance of our models (except for kNN). We also transform the data into the [0,1] range when using the neural network or kNN classifiers.
+
+
 \newgeometry{left=1cm,right=1cm}
-\subsection*{Performance Overview}
-% Please add the following required packages to your document preamble:
-% \usepackage[table,xcdraw]{xcolor}
-% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
 
+\vspace*{\fill}
 
-
-\begin{table}[h]
+\begin{center}
+    {\large Model Performance on Diverse Datasets}
+    \begin{table}[h]
     \begin{tabular}{l|cc|cc|cc|cc}
     Dataset:             & \multicolumn{2}{c|}{Digits}                                   & \multicolumn{2}{c|}{Titanic}                                  & \multicolumn{2}{c|}{Loan}                                     & \multicolumn{2}{c}{Parkinson's}                               \\ \hline
                          & Accuracy                      & F1-Score                      & Accuracy                      & F1-Score                      & Accuracy                      & F1-Score                      & Accuracy                      & F1-Score                      \\ \cline{2-9} 
@@ -66,10 +66,40 @@ We use cross-validation of k=10 folds when testing the performance of our models
     Decision Tree        & -                             & -                             & .7023                         & .8234                         & .5354                         & \cellcolor[HTML]{C0C0C0}.6860 & -                             & -                             \\
     Random Forrest       & -                             & -                             & -                             & -                             & \cellcolor[HTML]{C0C0C0}.7354 & .6650                         & -                             & -                             \\
     Neural Network       & \cellcolor[HTML]{C0C0C0}.9962 & \cellcolor[HTML]{C0C0C0}.9809 & \cellcolor[HTML]{C0C0C0}.9663 & \cellcolor[HTML]{C0C0C0}.9652 & -                             & -                             & \cellcolor[HTML]{C0C0C0}.9226 & \cellcolor[HTML]{C0C0C0}.8940 \\
-    Additional Algorithm & -                             & -                             & -                             & -                             & -                             & -                             & -                             & -                            
+    Network Forrest & -                            & -                             & -                             & -                             & -                             & -                             & -                             & -                            
     \end{tabular}
     \end{table}
+\end{center}
+
+\vfill
+
 \restoregeometry
+
+
+\subsection*{An Additional Variant}
+Consider a model variant which essentially performs logistic regression on each feature and then performs a vote on the output of each feature.
+The neural net architecture was modified to have a single neuron in one hidden layer to imitate logistic regression. We perform this logistic regression for each feature
+and then perform a vote. Afterwards, a k-NN variant gets to vote, which potentially breaks ties.
+\\
+
+When each of the neural networks makes a vote, we take the vote or votes with the highest frequency. These represent the features which contributed to the majority vote.
+If the vote is evenly split, all of the features are used in the k-NN algorithm to break the tie. Otherwise, it's just the features that contributed to the majority vote.
+This k-NN variant performs the euclidean distance calculation to find the closest 25\% of the training data to contribute to the vote.
+\\
+
+The idea here is to rank the features by their importance in the dataset. If they contributed to the majority vote, we essentially confirm
+that they are important. In a way, it's like a decision tree in the way we prioritize the most important features. However, it's important
+to note that unlike a decision tree, we don't have access to the test dataset to confirm that they actually are. So essentially, we are estimating the 
+best features to 'split' on rather than tuning them with the y-values.
+\\
+
+We'll analyze this new variant over all of the datasets we look at. This graphic displays an example:
+\begin{center}
+    \includegraphics*[width=0.8\textwidth]{./src/figures/variant.png}
+\end{center}
+
+\textcolor{red}{This is our attempt for extra credit \#3 and \#4. Because we analyze this variant over all of the datasets, this is also for extra credit \#1.}
+
 
 \newpage
 \section*{Digits Dataset}
