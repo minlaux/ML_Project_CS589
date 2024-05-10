@@ -62,9 +62,9 @@ We use cross-validation of k=10 folds when testing the performance of our models
     \begin{tabular}{l|cc|cc|cc|cc}
     Dataset:             & \multicolumn{2}{c|}{Digits}                                   & \multicolumn{2}{c|}{Titanic}                                  & \multicolumn{2}{c|}{Loan}                                     & \multicolumn{2}{c}{Parkinson's}                               \\ \hline
                          & Accuracy                      & F1-Score                      & Accuracy                      & F1-Score                      & Accuracy                      & F1-Score                      & Accuracy                      & F1-Score                      \\ \cline{2-9} 
-    k-NN                 & .8698                         & .9298                         & -                             & -                             & -                             & -                             & ?                             & ?                             \\
-    Decision Tree        & -                             & -                             & .7852                         & .8793                         & \cellcolor[HTML]{C0C0C0}.8083 & \cellcolor[HTML]{C0C0C0}.8930 & -                             & -                             \\
-    Random Forrest       & -                             & -                             & -                             & -                             & .7354                         & .6650                         & -                             & -                             \\
+    k-NN                 & .8698                         & .9298                         & -                             & -                             & -                             & -                             & 0.7526                        & 0.8557                             \\
+    Decision Tree        & -                             & -                             & .7023                         & .8234                         & .5354                         & \cellcolor[HTML]{C0C0C0}.6860 & -                             & -                             \\
+    Random Forrest       & -                             & -                             & -                             & -                             & \cellcolor[HTML]{C0C0C0}.7354 & .6650                         & -                             & -                             \\
     Neural Network       & \cellcolor[HTML]{C0C0C0}.9962 & \cellcolor[HTML]{C0C0C0}.9809 & \cellcolor[HTML]{C0C0C0}.9663 & \cellcolor[HTML]{C0C0C0}.9652 & -                             & -                             & \cellcolor[HTML]{C0C0C0}.9226 & \cellcolor[HTML]{C0C0C0}.8940 \\
     Additional Algorithm & -                             & -                             & -                             & -                             & -                             & -                             & -                             & -                            
     \end{tabular}
@@ -101,7 +101,7 @@ converges to zero as we add more features and normalize them. This (has/hasn't) 
 
     \begin{tabular}{lc}
         \toprule
-         & Neural Network \\
+        \multicolumn{2}{c}{Neural Network} \\
         \midrule
         Learning Rate $\alpha$ & 0.0500 \\
         Regularization $\lambda$ & 0.0100 \\
@@ -135,7 +135,7 @@ converges to zero as we add more features and normalize them. This (has/hasn't) 
     
     \begin{tabular}{lc}
         \toprule
-        & kNN \\
+        \multicolumn{2}{c}{k-NN} \\
         \midrule
         Neighbors $k$ & 51 \\
         Mean Accuracy & 0.8698 \\
@@ -246,7 +246,7 @@ include passenger class, ticket fare, and gender. With three main features impac
 
     \begin{tabular}{ll}
         \toprule
-        & Neural Network \\
+        \multicolumn{2}{c}{Neural Network} \\
         \midrule
         Learning Rate $\alpha$ & 0.0400 \\
         Regularization $\lambda$ & 0.0900 \\
@@ -299,7 +299,7 @@ include passenger class, ticket fare, and gender. With three main features impac
     \vspace*{30pt}
     \begin{tabular}{lc}
         \toprule
-        & Decision Tree \\
+        \multicolumn{2}{c}{Decision Tree} \\
         \midrule
         Maximum Depth & 4 \\
         Mean Accuracy & 0.7023 \\
@@ -310,7 +310,8 @@ include passenger class, ticket fare, and gender. With three main features impac
 \end{minipage}
 \restoregeometry
 \subsection*{Tuning Hyper-parameters}
-    
+[add for neural network]
+\\
 Conducting multiple analyses of the decision tree algorithm on the titanic dataset with differing maximum tree depths,
 we have determined the preferred hyperparameter to be $max\_depth$ = 4. 
 At this value, accuracy and F1-score reach a peak at 70.23\% and 82.34\%, respectively, after which both metrics decrease substantially.
@@ -333,6 +334,15 @@ which may struggle to effectively differentiate between instances with similar n
 \\
 
 On the other hand, employing a neural network on this dataset proved to be substantially more accurate in predicting instance classes.
+However, we observed a concerning trend in the neural network's performance metrics. 
+While the accuracy on the test set was high, we witnessed a very high mean test cost, as well.
+Furthermore, the extreme variance in cost as the model processed more instances
+indicates that the neural network's predictions were inconsistent across different subsets of the dataset.
+This may be a consequence of class imbalance in the titanic dataset.
+The proportion of the class $Did\ Not\ Survive$ was 61\%, 
+while for the class $Survived$, the proportion was only 38\%.
+Our neural network model may be prioritising minimising errors on the majority class, 
+leading to higher costs for misclassifying the minority class instances.
 
 
 
@@ -340,7 +350,7 @@ On the other hand, employing a neural network on this dataset proved to be subst
 \section*{Loan Eligibility Dataset}
 
 \subsection*{Performance Metrics}
-
+One hot coded, loan ID was dropped
 \newgeometry{left=1cm,right=1cm}
 \begin{center}
     \texttt{Decision Tree}
@@ -355,11 +365,11 @@ On the other hand, employing a neural network on this dataset proved to be subst
     \centering
     \begin{tabular}{lc}
         \toprule
-        & Decision Tree \\
+        \multicolumn{2}{c}{Decision Tree} \\
         \midrule
-        Maximum Depth & $k$ \\
-        Mean Accuracy & ? \\
-        Mean F1-score & ? \\
+        Maximum Depth & 2 \\
+        Mean Accuracy & 0.5354 \\
+        Mean F1-score & 0.6860 \\
         \bottomrule
     \end{tabular}
     \captionof*{figure}{\textit{Metrics for Preferred Model Variant}}
@@ -434,7 +444,28 @@ On the other hand, employing a neural network on this dataset proved to be subst
 \restoregeometry
 
 \subsection*{Tuning Hyper-parameters}
+Similar to the implementation of the decision tree model for the titanic dataset,
+the performance of the model diminished with maximum depth values above 2.
+Thus, we chose the hyperparameter $max\_depth$ = 2 to represent this model.
+Furthermore, we found that repeated testing with maximum depth values of 2 and 3
+produced similar evaluation values.
+The decision to select $max\_depth$ = 2 stemmed from the oscillation in performance
+metrics during repeated testing on $max\_depth$ = 3, 
+which produced greater instability than the former hyperparameter value. 
+[add for random forest]
+
+
+
 \subsection*{Analysis}
+For the loan dataset, we employed the decision tree and random forest algorithms.
+It is crucial to note that the random forest model used entropy as a stopping criterion,
+while the decision tree model used tree depth as its stopping criterion.
+This may be a factor in why the random forest classifier performed better on both accuracy and F1-score
+than the decision tree classifier.
+That being said, both models converged to poor local optimums, 
+indicating a lapse in classification ability for tree-based algorithms on this dataset.
+[add why]
+
 
 \newpage
 \section*{Oxford Parkinson's Disease Dataset}
@@ -452,11 +483,11 @@ On the other hand, employing a neural network on this dataset proved to be subst
 
     \begin{tabular}{lc}
         \toprule
-        & kNN \\
+        \multicolumn{2}{c}{k-NN} \\
         \midrule
-        Neighbors $k$ & $k$ \\
-        Mean Accuracy & ? \\
-        Mean F1-score & ? \\
+        Neighbors $k$ & 61 \\
+        Mean Accuracy & 0.7526 \\
+        Mean F1-score & 0.8557 \\
         \bottomrule
     \end{tabular}
     \captionof*{figure}{\textit{Metrics for Preferred Model Variant}}
@@ -525,6 +556,7 @@ On the other hand, employing a neural network on this dataset proved to be subst
 \end{minipage}
 \subsection*{Tuning Hyper-parameters}
 .7538 accuracy of random classifier.
+
 \subsection*{Analysis}
 
 \end{document}
