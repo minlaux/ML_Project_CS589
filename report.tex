@@ -26,7 +26,7 @@
 \maketitle
 
 \section*{Introduction}
-This report provides an analysis of the application of various machine learning projects on several datasets.
+This report provides an analysis of using various machine learning algorithms on various datasets.
 The goal is to identify the best-use scenarios of model variants given the nature of input data.
 In this report, the authors analyze the
 \begin{itemize}
@@ -50,14 +50,14 @@ but their fundamental logic stays consistent from previous use cases.
 \\
 
 We use cross-validation of k=10 folds when testing the performance of our models (except for kNN). We also transform the data into the [0,1] range when using the neural network or kNN classifiers.
-
+\newgeometry{left=1cm,right=1cm}
 \subsection*{Performance Overview}
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
 % Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
 
 
-\newgeometry{left=1cm,right=1cm}
+
 \begin{table}[h]
     \begin{tabular}{l|cc|cc|cc|cc}
     Dataset:             & \multicolumn{2}{c|}{Digits}                                   & \multicolumn{2}{c|}{Titanic}                                  & \multicolumn{2}{c|}{Loan}                                     & \multicolumn{2}{c}{Parkinson's}                               \\ \hline
@@ -85,15 +85,15 @@ impressive results in image classification tasks, making them a top contender fo
 
 On the other hand, the k-NN algorithm is a simple yet effective classifier that makes predictions based on the closeness of past training instances in the feature space. We figured that similar pixel activations in the handwritten digits
 would translate into less distance in the 64-dimensional feature space. A concern we had when choosing this algorithm is precision loss; kNN performs poorly with a large number of features, which is 64 in our case. The distance measurement between two instances
-converges to zero as we add more features and normalize them. This (has/hasn't) proved to be a problem.
+converges to zero as we add more features and normalize them. However, this wasn't a major problem in our analysis.
 
+\newgeometry{left=1cm,right=1cm}
 \subsection*{Performance Metrics}
-
 %we can adjust for three models later
 \begin{center}
     \texttt{Neural Network}
 
-    \includegraphics*[width=0.8\textwidth]{./src/figures/Digits-test-cost.png}
+    \includegraphics*[width=0.6\textwidth]{./src/figures/Digits-test-cost.png}
 \end{center}
 
 \begin{minipage}{0.49\textwidth}
@@ -117,15 +117,14 @@ converges to zero as we add more features and normalize them. This (has/hasn't) 
     \centering
     
     \includegraphics*[width=1\textwidth]{./src/figures/Digits_train_cost.png}
-    \captionof*{figure}{\textit{Test cost over 179,700 instances}}
+    \captionof*{figure}{\textit{Training cost over 179,700 instances}}
     \vfill
 \end{minipage}
 
-\newgeometry{left=1cm,right=1cm}
+\newpage
 \begin{center}
     \texttt{k-NN Algorithm}
 \end{center}
-
 \begin{minipage}{0.49\textwidth}
     \centering
 
@@ -190,7 +189,7 @@ We found increased performance and a slower convergence by decreasing $\alpha$ a
 The architecture was chosen because it had the lowest accuracy variance between each fold out of the models tested.
 \\
 
-In our implementation of the k-NN algorithm, we tested different values of $k$ in the range [1, 52) for an ideal hyperparameter. 
+In our implementation of the k-NN algorithm, we tested different (integer) values of $k$ in the range [1, 52) for an ideal hyperparameter. 
 We observed an initial jump in the evaluation metrics between $k$ = 1 and $k$ = 2 and a high variance.
 This points to the algorithm being sensitive to outliers at very small values of $k$.
 As the value of $k$ increases, the values of the evaluation metrics increase, as well, and stabilise by $k$ = 51 at 86.98\% for accuracy and 92.98\% for F1-score.
@@ -208,7 +207,7 @@ For example, an analysis of its predictions made on an instance of class 0 may r
 \\
 
 The neural network acts as a well-defined alternative to this issue, as it captures more complex patterns and data variability present in handwriting.
-Additionally, a higher neuron count fascilitates learning these handwriting variations of numbers of the same class, making the network more reliable in predicting instances that look alike and a higher accuracy.
+Additionally, a higher neuron count facilitates learning these handwriting variations of numbers of the same class, making the network more reliable in predicting instances that look alike and a higher accuracy.
 
 
 
@@ -233,8 +232,9 @@ It's arguably the easiest model to tune with respect to the datasets this paper 
 
 The choice of applying a decision tree for this task is natural as well. There are a number of more important features that a high-bias model can benefit from. These
 include passenger class, ticket fare, and gender. With three main features impacting survivability, we can benefit from a decision tree by quickly sub-setting the dataset on those features.
-\subsection*{Performance Metrics}
 
+\newpage
+\subsection*{Performance Metrics}
 \begin{center}
     \texttt{Neural Network}
 
@@ -262,7 +262,7 @@ include passenger class, ticket fare, and gender. With three main features impac
 \begin{minipage}{0.49\textwidth}
     \centering
     \includegraphics*[width=0.9\textwidth]{./src/figures/Titanic_train_cost.png}
-    \captionof*{figure}{\textit{Test cost over 87,700 instances}}
+    \captionof*{figure}{\textit{Training cost over 87,700 instances}}
 \end{minipage}
 
 \newgeometry{left=1cm,right=1cm}
@@ -310,8 +310,13 @@ include passenger class, ticket fare, and gender. With three main features impac
 \end{minipage}
 \restoregeometry
 \subsection*{Tuning Hyper-parameters}
-[add for neural network]
+
+The neural network was analyzed over various learning rates and regularization constants. We found that a learning rate of 0.04 and a regularization constant of 0.09 produced the best results.
+We found that a larger-than-usual regularization constant was necessary to reducing the variance in the model's predictions. At lower $\lambda$ values, the model appeared to overfit the data, which was evident by the high variance in the training cost curve.
+A smaller architecture was chosen to reduce the complexity of the model as performance suffered with the presence of more than one hidden layer.
+This is likely due to the complexity of the dataset, which features rather arbitrary social factors.
 \\
+
 Conducting multiple analyses of the decision tree algorithm on the titanic dataset with differing maximum tree depths,
 we have determined the preferred hyperparameter to be $max\_depth$ = 4. 
 At this value, accuracy and F1-score reach a peak at 70.23\% and 82.34\%, respectively, after which both metrics decrease substantially.
@@ -348,10 +353,25 @@ leading to higher costs for misclassifying the minority class instances.
 
 \newpage
 \section*{Loan Eligibility Dataset}
+The loan eligibility dataset is a binary classification problem. We have chosen to analyze the performance of a decision tree and a random forest classifier.
+\\
 
-\subsection*{Performance Metrics}
-One hot coded, loan ID was dropped
+The choice of applying a decision tree to the problem was natural. Anecdotally, decision trees are usually taught in the context of loan eligibility problems. 
+This is because decision trees are based on a series of if-else statements that are both easy to interpret and prioritize the most important features.
+In the context of this dataset, the presence of 11 total features makes some features more important than others, which will ideally be filtered for relevance by a decision tree.
+\\
+
+The choice of applying a random forrest was also sensible. Random forests are ensembles of decision trees and aim to reduce the variance of output problems.
+With this algorithm, we can ideally expect a model less prone to over-fitting compared to a decision tree if the nature of the data is nuanced.
+\\
+
+We had to pre-process this dataset as well. The provided file contained a Loan\_ID container which the models would misinterpet as a feature and end up memorizing the target class as
+as a function of the Loan\_ID. Therefore, we removed this column from the dataset. To successfully process the dataset through the random forrest algorithm, the classes had to be encoded as numbers
+but none of the features were on-hot encoded. This is because the random forrest algorithm can handle categorical data without the need for this. For instance, the graduate feature was encoded as 0 for 'No' and 1 for 'Yes'.
+
+
 \newgeometry{left=1cm,right=1cm}
+\subsection*{Performance Metrics}
 \begin{center}
     \texttt{Decision Tree}
 \end{center}
@@ -452,8 +472,13 @@ produced similar evaluation values.
 The decision to select $max\_depth$ = 2 stemmed from the oscillation in performance
 metrics during repeated testing on $max\_depth$ = 3, 
 which produced greater instability than the former hyperparameter value. 
-[add for random forest]
+\\
 
+We found that the random forest model performed best with 2 ensembles trees. Perhaps other values were optimal such as $ntree = 20$, as seen by the graph above, but
+the variant with the highest accuracy was preferred despite the peak f1-score being at $ntree=20$ and a relatively high accuracy as well.
+The stopping condition of each tree in the random forrest was the same: a minimal split entropy of 0.21. This was chosen through the method of moments, simply the value that produced the best results at 5 decision trees.
+Alternative stopping conditions that were tested with cross validation include the minimal split entropy, ranging from 0.01 to 0.27 in 10 equal step sizes, the maximum depth of each decision tree, ranging from 3 to 22 in 10 equal steps,
+and the proportion of the dataset required in each branch to perform a split, which ranged from 1\% to 27\% in 10 equal steps.
 
 
 \subsection*{Analysis}
@@ -464,14 +489,22 @@ This may be a factor in why the random forest classifier performed better on bot
 than the decision tree classifier.
 That being said, both models converged to poor local optimums, 
 indicating a lapse in classification ability for tree-based algorithms on this dataset.
-[add why]
+\\
+
+It'd be difficult to compare the effect of adding an extra decision tree to result in the random forrest model because the algorithms are tuned to different stopping conditions.
+However, the higher performance of the random forrest model suggests that an ensemble is beneficial, given the nature of the data. This suggests that the data is nuanced and requires greater complexity to capture 
+less-subtle patterns. Indeed, the relatively high performance of the random forest at $ntree=20$ suggests that this is the case and that this alternative model variant could also be acceptable.
+The relatively similar precision and recall scores for the 2-tree ensemble suggests that the model is classifying false positives and negatives at similar rates. This is interesting since 67\% of the dataset is of class 'Y'.
+This potentially explains the precision and recall metrics of the model at $ntree=20$, where the model is classifying false negatives at a higher rate than false positives.
 
 
 \newpage
 \section*{Oxford Parkinson's Disease Dataset}
-\subsection*{Performance Metrics}
+
 
 \newgeometry{left=1cm,right=1cm}
+\subsection*{Performance Metrics}
+
 \begin{center}
     \texttt{k-NN Algorithm}
 \end{center}
