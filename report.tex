@@ -590,6 +590,38 @@ This potentially explains the precision and recall metrics of the model at $ntre
 \subsection*{Tuning Hyper-parameters}
 .7538 accuracy of random classifier.
 
+The k-NN algorithm witnessed a large dip in performance between $k$ values of 1 and 56.
+The high variance observed in predictions at these values may be indicative of 
+the algorithm's sensitivity to local fluctuations in the training data. 
+At lower values of $k$, the algorithm tends to overfit to the noise in the training data, 
+resulting in poor generalisation performance on the test set,
+which is what we witnessed with our metrics dipping below 26\% for accuracy and below 40\% for F1-score.
+At $k$ = 61, the algorithm finally converged to an optimum at 75.26\% accuracy and 85.57\% F1-score.
+As this was the first $k$ value to produce stable results, we selected it for our hyperparameter, 
+looking to mitigate the overfitting phenomenon observed with smaller values of $k$.
+
 \subsection*{Analysis}
+With regard to this dataset, we found that both of our classifiers exhibited high variance, 
+indicating their sensitivity to fluctuations in the training data.
+In numerical datasets, such as this one, individual data points may exhibit significant variability, 
+especially if they represent continuous variables with a wide range of values.
+For the k-NN algorithm, variance spiked between $k$ = 1 and $k$ = 56,
+representative of the overfitting issue mentioned previously.
+This increase in variance suggests that the algorithm's performance deteriorated
+as it tried to adapt to noise in the training data.
+However, once $k$ hit 61, variance decreased substantially, 
+indicating that considering a larger number of neighbors allowed the algorithm 
+to smooth out the impact of individual data points and consider the dataset comprehensively.
+\\
+
+A similar spike in variance was observed in the neural network algorithm. 
+Initially, as the model processed the data, 
+we noticed a substantial fluctuation in the cost function across different instances, 
+indicating high sensitivity to variations in the training data. 
+However, the algorithm converged to a more consistent behaviour the closer it got to processing 19,500 instances,
+reaching a mean test cost of 13.48.
+It may be helpful to increase the complexity of the neural network architecture to capture this data variance
+and learn more intricate patterns and relationships within it.
+
 
 \end{document}
