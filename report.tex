@@ -62,11 +62,11 @@ We use cross-validation of k=10 folds when testing the performance of our models
     \begin{tabular}{l|cc|cc|cc|cc}
     Dataset:             & \multicolumn{2}{c|}{Digits}                                   & \multicolumn{2}{c|}{Titanic}                                  & \multicolumn{2}{c|}{Loan}                                     & \multicolumn{2}{c}{Parkinson's}                               \\ \hline
                          & Accuracy                      & F1-Score                      & Accuracy                      & F1-Score                      & Accuracy                      & F1-Score                      & Accuracy                      & F1-Score                      \\ \cline{2-9} 
-    k-NN                 & .8698                         & .9298                         & -                             & -                             & -                             & -                             & 0.7526                        & 0.8557                             \\
+    k-NN                 & .8698                         & .9298                         & -                             & -                             & -                             & -                             & .7526                        & .8557                             \\
     Decision Tree        & -                             & -                             & .7023                         & .8234                         & .5354                         & \cellcolor[HTML]{C0C0C0}.6860 & -                             & -                             \\
     Random Forrest       & -                             & -                             & -                             & -                             & \cellcolor[HTML]{C0C0C0}.7354 & .6650                         & -                             & -                             \\
     Neural Network       & \cellcolor[HTML]{C0C0C0}.9962 & \cellcolor[HTML]{C0C0C0}.9809 & \cellcolor[HTML]{C0C0C0}.9663 & \cellcolor[HTML]{C0C0C0}.9652 & -                             & -                             & \cellcolor[HTML]{C0C0C0}.9226 & \cellcolor[HTML]{C0C0C0}.8940 \\
-    Network Forrest & -                            & -                             & -                             & -                             & -                             & -                             & -                             & -                            
+    Network Forrest & .8255                            & .5710                             & .5808                             & .6968                             & .6917                             & .4084                             & .7542                             & .4281                            
     \end{tabular}
     \end{table}
 \end{center}
@@ -116,6 +116,25 @@ impressive results in image classification tasks, making them a top contender fo
 On the other hand, the k-NN algorithm is a simple yet effective classifier that makes predictions based on the closeness of past training instances in the feature space. We figured that similar pixel activations in the handwritten digits
 would translate into less distance in the 64-dimensional feature space. A concern we had when choosing this algorithm is precision loss; kNN performs poorly with a large number of features, which is 64 in our case. The distance measurement between two instances
 converges to zero as we add more features and normalize them. However, this wasn't a major problem in our analysis.
+
+\subsection*{Tuning Hyper-parameters}
+For the neural network, we've chosen an $\alpha$ of 0.05 and a regularization constant of $\lambda=0.01$. At first, with a $\lambda=0$ and $\alpha=0.50$, the model had good performance but a quick convergence in the training curve.
+We found increased performance and a slower convergence by decreasing $\alpha$ and increasing $\lambda$ to a final accuracy of 99.62\%. This indicates a misclassification of 6 total instances out of 1,797 total.
+The architecture was chosen because it had the lowest accuracy variance between each fold out of the models tested.
+\\
+
+In our implementation of the k-NN algorithm, we tested different (integer) values of $k$ in the range [1, 52) for an ideal hyperparameter. 
+We observed an initial jump in the evaluation metrics between $k$ = 1 and $k$ = 2 and a high variance.
+This points to the algorithm being sensitive to outliers at very small values of $k$.
+As the value of $k$ increases, the values of the evaluation metrics increase, as well, and stabilise by $k$ = 51 at 86.98\% for accuracy and 92.98\% for F1-score.
+Increasing this hyperparameter value also led to smaller variance, which is helpful when dealing with noisy datasets.
+In witnessing this convergence, we have chosen a final hyperparameter value for the k-NN algorithm to be $k$ = 51.
+With a larger $k$ value and smoother decision boundary, we mitigate the chance of overfitting our model to the data.
+\\
+
+The network forrest was tuned for runtime rather than for accuracy. We found that the model performed well with a learning rate of 0.1 and a regularization constant of 0. Any regularization above 0 would result in a model that performed poorly. This is likely due to the fact that the model is not complex enough to require regularization.
+It's worth noting that the model takes significantly longer to train than the other models, especially the neural network because this model does not take advantage of parallel processing or vectorization.
+
 
 \newgeometry{left=1cm,right=1cm}
 \subsection*{Performance Metrics}
@@ -212,21 +231,29 @@ converges to zero as we add more features and normalize them. However, this wasn
     \vfill
 \end{minipage}
 \restoregeometry
-
-\subsection*{Tuning Hyper-parameters}
-For the neural network, we've chosen an $\alpha$ of 0.05 and a regularization constant of $\lambda=0.01$. At first, with a $\lambda=0$ and $\alpha=0.50$, the model had good performance but a quick convergence in the training curve.
-We found increased performance and a slower convergence by decreasing $\alpha$ and increasing $\lambda$ to a final accuracy of 99.62\%. This indicates a misclassification of 6 total instances out of 1,797 total.
-The architecture was chosen because it had the lowest accuracy variance between each fold out of the models tested.
-\\
-
-In our implementation of the k-NN algorithm, we tested different (integer) values of $k$ in the range [1, 52) for an ideal hyperparameter. 
-We observed an initial jump in the evaluation metrics between $k$ = 1 and $k$ = 2 and a high variance.
-This points to the algorithm being sensitive to outliers at very small values of $k$.
-As the value of $k$ increases, the values of the evaluation metrics increase, as well, and stabilise by $k$ = 51 at 86.98\% for accuracy and 92.98\% for F1-score.
-Increasing this hyperparameter value also led to smaller variance, which is helpful when dealing with noisy datasets.
-In witnessing this convergence, we have chosen a final hyperparameter value for the k-NN algorithm to be $k$ = 51.
-With a larger $k$ value and smoother decision boundary, we mitigate the chance of overfitting our model to the data.
-
+\begin{center}
+    \texttt{Network Forrest}
+\end{center}
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \includegraphics*[width=\textwidth]{./src/figures/Digits dataset_variant.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \begin{tabular}{lr}
+        \toprule
+         & Model 1 \\
+        \midrule
+        Learning Rate $\alpha$ & 0.1000 \\
+        Regularization $\lambda$ & 0.0000 \\
+        Mean Accuracy & 0.8255 \\
+        Mean F1-score & 0.5710 \\
+        Number of Iterations & 20.0000 \\
+        Batch Size & 10.0000 \\
+        \bottomrule
+        \end{tabular}
+\end{minipage}
 
 \subsection*{Analysis}
 Reporting on the final runs of the neural network and k-NN algorithms on the digits dataset, both models performed well on the testing instances.
@@ -238,8 +265,12 @@ For example, an analysis of its predictions made on an instance of class 0 may r
 
 The neural network acts as a well-defined alternative to this issue, as it captures more complex patterns and data variability present in handwriting.
 Additionally, a higher neuron count facilitates learning these handwriting variations of numbers of the same class, making the network more reliable in predicting instances that look alike and a higher accuracy.
+\\
 
-
+Additionally the network forrest, our variant model performed surprisingly well on this dataset. This is likely due to the presence of features that
+are uniformly important. Each individual pixel does not decide the photo, but the majority of them do. This is why the model performed well in this context.
+It's worth noting that with 64 features and a relatively high accuracy, it is almost certain that the k-NN variant tie-breaker was not used.
+Also, what benefits our model is the low resolution of the images, allowing for digits of one class to not vary much in the 64-pixel feature space.
 
 \newpage
 \section*{Titanic Dataset}
@@ -263,7 +294,21 @@ It's arguably the easiest model to tune with respect to the datasets this paper 
 The choice of applying a decision tree for this task is natural as well. There are a number of more important features that a high-bias model can benefit from. These
 include passenger class, ticket fare, and gender. With three main features impacting survivability, we can benefit from a decision tree by quickly sub-setting the dataset on those features.
 
-\newpage
+\subsection*{Tuning Hyper-parameters}
+
+The neural network was analyzed over various learning rates and regularization constants. We found that a learning rate of 0.04 and a regularization constant of 0.09 produced the best results.
+We found that a larger-than-usual regularization constant was necessary to reducing the variance in the model's predictions. At lower $\lambda$ values, the model appeared to overfit the data, which was evident by the high variance in the training cost curve.
+A smaller architecture was chosen to reduce the complexity of the model as performance suffered with the presence of more than one hidden layer.
+This is likely due to the complexity of the dataset, which features rather arbitrary social factors.
+\\
+
+Conducting multiple analyses of the decision tree algorithm on the titanic dataset with differing maximum tree depths,
+we have determined the preferred hyperparameter to be $max\_depth$ = 4. 
+At this value, accuracy and F1-score reach a peak at 70.23\% and 82.34\%, respectively, after which both metrics decrease substantially.
+Deeper trees lead to overfitting and decrease in generalisation ability, 
+which is evidenced by the sharp increace in variance on both accuracy and F-1 score after tree depth 4.
+
+
 \subsection*{Performance Metrics}
 \begin{center}
     \texttt{Neural Network}
@@ -339,20 +384,29 @@ include passenger class, ticket fare, and gender. With three main features impac
     \captionof*{figure}{\textit{Metrics for Preferred Model Variant}}
 \end{minipage}
 \restoregeometry
-\subsection*{Tuning Hyper-parameters}
-
-The neural network was analyzed over various learning rates and regularization constants. We found that a learning rate of 0.04 and a regularization constant of 0.09 produced the best results.
-We found that a larger-than-usual regularization constant was necessary to reducing the variance in the model's predictions. At lower $\lambda$ values, the model appeared to overfit the data, which was evident by the high variance in the training cost curve.
-A smaller architecture was chosen to reduce the complexity of the model as performance suffered with the presence of more than one hidden layer.
-This is likely due to the complexity of the dataset, which features rather arbitrary social factors.
-\\
-
-Conducting multiple analyses of the decision tree algorithm on the titanic dataset with differing maximum tree depths,
-we have determined the preferred hyperparameter to be $max\_depth$ = 4. 
-At this value, accuracy and F1-score reach a peak at 70.23\% and 82.34\%, respectively, after which both metrics decrease substantially.
-Deeper trees lead to overfitting and decrease in generalisation ability, 
-which is evidenced by the sharp increace in variance on both accuracy and F-1 score after tree depth 4.
-
+\begin{center}
+    \texttt{Network Forrest}
+\end{center}
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \includegraphics*[width=\textwidth]{./src/figures/Titanic Dataset_variant.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \begin{tabular}{lr}
+        \toprule
+         & Model 1 \\
+        \midrule
+        Learning Rate $\alpha$ & 0.0500 \\
+        Regularization $\lambda$ & 0.0000 \\
+        Mean Accuracy & 0.5808 \\
+        Mean F1-score & 0.6968 \\
+        Number of Iterations & 100.0000 \\
+        Batch Size & 10.0000 \\
+        \bottomrule
+        \end{tabular}
+\end{minipage}
 
 \subsection*{Analysis}
 Our decision tree struggled in providing reliable predictions on the titanic dataset. 
@@ -378,7 +432,11 @@ The proportion of the class $Did\ Not\ Survive$ was 61\%,
 while for the class $Survived$, the proportion was only 38\%.
 Our neural network model may be prioritising minimising errors on the majority class, 
 leading to higher costs for misclassifying the minority class instances.
+\\
 
+Unsurprisingly, the network forrest model performed poorly on this dataset. This is because of the aforementioned non-uniform importance of each feature.
+The model performed poorly on this dataset because the features were not uniformly important. This is again due to the fact that there are key features that are more important than others.
+Our model is not adequately able to learn any new information, performing poorer than a random classifier.
 
 
 \newpage
@@ -399,6 +457,25 @@ We had to pre-process this dataset as well. The provided file contained a Loan\_
 as a function of the Loan\_ID. Therefore, we removed this column from the dataset. To successfully process the dataset through the random forrest algorithm, the classes had to be encoded as numbers
 but none of the features were on-hot encoded. This is because the random forrest algorithm can handle categorical data without the need for this. For instance, the graduate feature was encoded as 0 for 'No' and 1 for 'Yes'.
 
+\subsection*{Tuning Hyper-parameters}
+Similar to the implementation of the decision tree model for the titanic dataset,
+the performance of the model diminished with maximum depth values above 2.
+Thus, we chose the hyperparameter $max\_depth$ = 2 to represent this model.
+Furthermore, we found that repeated testing with maximum depth values of 2 and 3
+produced similar evaluation values.
+The decision to select $max\_depth$ = 2 stemmed from the oscillation in performance
+metrics during repeated testing on $max\_depth$ = 3, 
+which produced greater instability than the former hyperparameter value. 
+\\
+
+We found that the random forest model performed best with 2 ensembles trees. Perhaps other values were optimal such as $ntree = 20$, as seen by the graph above, but
+the variant with the highest accuracy was preferred despite the peak f1-score being at $ntree=20$ and a relatively high accuracy as well.
+The stopping condition of each tree in the random forrest was the same: a minimal split entropy of 0.21. This was chosen through the method of moments, simply the value that produced the best results at 5 decision trees.
+Alternative stopping conditions that were tested with cross validation include the minimal split entropy, ranging from 0.01 to 0.27 in 10 equal step sizes, the maximum depth of each decision tree, ranging from 3 to 22 in 10 equal steps,
+and the proportion of the dataset required in each branch to perform a split, which ranged from 1\% to 27\% in 10 equal steps.
+\\
+
+Tuning the network forrest proved an impossible task. The model was unable to perform better than a random classifier over various different hyperparameters.
 
 \newgeometry{left=1cm,right=1cm}
 \subsection*{Performance Metrics}
@@ -492,23 +569,29 @@ but none of the features were on-hot encoded. This is because the random forrest
     \captionof*{figure}{\textit{Performance metrics across various $n$-tree}}
 \end{center}
 \restoregeometry
-
-\subsection*{Tuning Hyper-parameters}
-Similar to the implementation of the decision tree model for the titanic dataset,
-the performance of the model diminished with maximum depth values above 2.
-Thus, we chose the hyperparameter $max\_depth$ = 2 to represent this model.
-Furthermore, we found that repeated testing with maximum depth values of 2 and 3
-produced similar evaluation values.
-The decision to select $max\_depth$ = 2 stemmed from the oscillation in performance
-metrics during repeated testing on $max\_depth$ = 3, 
-which produced greater instability than the former hyperparameter value. 
-\\
-
-We found that the random forest model performed best with 2 ensembles trees. Perhaps other values were optimal such as $ntree = 20$, as seen by the graph above, but
-the variant with the highest accuracy was preferred despite the peak f1-score being at $ntree=20$ and a relatively high accuracy as well.
-The stopping condition of each tree in the random forrest was the same: a minimal split entropy of 0.21. This was chosen through the method of moments, simply the value that produced the best results at 5 decision trees.
-Alternative stopping conditions that were tested with cross validation include the minimal split entropy, ranging from 0.01 to 0.27 in 10 equal step sizes, the maximum depth of each decision tree, ranging from 3 to 22 in 10 equal steps,
-and the proportion of the dataset required in each branch to perform a split, which ranged from 1\% to 27\% in 10 equal steps.
+\begin{center}
+    \texttt{Network Forrest}
+\end{center}
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \includegraphics*[width=\textwidth]{./src/figures/Loans Dataset_variant.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \begin{tabular}{lr}
+        \toprule
+         & Model 1 \\
+        \midrule
+        Learning Rate $\alpha$ & 0.0500 \\
+        Regularization $\lambda$ & 0.0000 \\
+        Mean Accuracy & 0.6917 \\
+        Mean F1-score & 0.4084 \\
+        Number of Iterations & 100.0000 \\
+        Batch Size & 10.0000 \\
+        \bottomrule
+        \end{tabular}
+\end{minipage}
 
 
 \subsection*{Analysis}
@@ -526,11 +609,43 @@ However, the higher performance of the random forrest model suggests that an ens
 less-subtle patterns. Indeed, the relatively high performance of the random forest at $ntree=20$ suggests that this is the case and that this alternative model variant could also be acceptable.
 The relatively similar precision and recall scores for the 2-tree ensemble suggests that the model is classifying false positives and negatives at similar rates. This is interesting since 67\% of the dataset is of class 'Y'.
 This potentially explains the precision and recall metrics of the model at $ntree=20$, where the model is classifying false negatives at a higher rate than false positives.
+\\
 
+Again we see the network forrest struggling to perform. Here, this model acts as statistical test against for the non-uniformity of the features. 
+The majority vote for each feature does not perform well in this context.
 
 \newpage
 \section*{Oxford Parkinson's Disease Dataset}
+The Parkinson's dataset proved to be very tricky. Again we used a neural network and a k-Nearest Neighbors algorithm, as we did with the digits dataset.
+Having a large number of features, the k-NN algorithm was expected to perform poorly and the neural network was expected to perform well.
+Indeed, this was the case and unlike with the digits dataset, our hypothesized was confirmed.
+\\
 
+The nature of the data is biological and complex by nature. It seems that some features are simply more important than others are. 
+This explains why both the network forrest and k-NN algorithm perform poorly.
+
+\subsection*{Tuning Hyper-parameters}
+
+The k-NN algorithm witnessed a large dip in performance between $k$ values of 1 and 56.
+The high variance observed in predictions at these values may be indicative of 
+the algorithm's sensitivity to local fluctuations in the training data. 
+At lower values of $k$, the algorithm tends to overfit to the noise in the training data, 
+resulting in poor generalisation performance on the test set,
+which is what we witnessed with our metrics dipping below 26\% for accuracy and below 40\% for F1-score.
+At $k$ = 61, the algorithm finally converged to an optimum at 75.26\% accuracy and 85.57\% F1-score.
+As this was the first $k$ value to produce stable results, we selected it for our hyperparameter, 
+looking to mitigate the overfitting phenomenon observed with smaller values of $k$.
+\\
+
+Tuning the neural network was also quite tricky. We found out that the model did not perform well with any significant regularization.
+Also the nature of the data was such that any changes in hyper-parameters would drastically change model performance.
+The ideal learning rate was found to be 0.1, which was visibly checked to be valid by the training and testing cost curves.
+Furthermore, the network performed poorly with any number of hidden layers greater than one. Better results were also found with a smaller number of nodes in
+the single hidden layer, suggesting that certain features were more important than others.
+\\
+
+Tuning the network forrest was again optimized primarily for processing speed. An $\alpha$ of 0.02 was chosen because it produced the best results efficiently.
+The sensitivity of the dataset suggests that even lower values of alpha over a larger number of iterations is preferable.
 
 \newgeometry{left=1cm,right=1cm}
 \subsection*{Performance Metrics}
@@ -614,21 +729,33 @@ This potentially explains the precision and recall metrics of the model at $ntre
 \hfill
 \begin{minipage}{0.49\textwidth}
     \centering
-    \includegraphics*[width=0.9\textwidth]{./src/figures/Parikinson's_train_cost.png}
+    \includegraphics*[width=0.9\textwidth]{./src/figures/Parkinson's_train_cost.png}
     \captionof*{figure}{\textit{Training Cost Over 19,500 Instances}}
 \end{minipage}
-\subsection*{Tuning Hyper-parameters}
-.7538 accuracy of random classifier.
-
-The k-NN algorithm witnessed a large dip in performance between $k$ values of 1 and 56.
-The high variance observed in predictions at these values may be indicative of 
-the algorithm's sensitivity to local fluctuations in the training data. 
-At lower values of $k$, the algorithm tends to overfit to the noise in the training data, 
-resulting in poor generalisation performance on the test set,
-which is what we witnessed with our metrics dipping below 26\% for accuracy and below 40\% for F1-score.
-At $k$ = 61, the algorithm finally converged to an optimum at 75.26\% accuracy and 85.57\% F1-score.
-As this was the first $k$ value to produce stable results, we selected it for our hyperparameter, 
-looking to mitigate the overfitting phenomenon observed with smaller values of $k$.
+\newpage
+\begin{center}
+    \texttt{Network Forrest}
+\end{center}
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \includegraphics*[width=\textwidth]{./src/figures/Parkinson's Dataset_variant.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.49\textwidth}
+    \centering
+    \begin{tabular}{lr}
+        \toprule
+         & Model 1 \\
+        \midrule
+        Learning Rate $\alpha$ & 0.0200 \\
+        Regularization $\lambda$ & 0.0000 \\
+        Mean Accuracy & 0.7542 \\
+        Mean F1-score & 0.4281 \\
+        Number of Iterations & 100.0000 \\
+        Batch Size & 10.0000 \\
+        \bottomrule
+        \end{tabular}
+\end{minipage}
 
 \subsection*{Analysis}
 With regard to this dataset, we found that both of our classifiers exhibited high variance, 
@@ -652,6 +779,11 @@ However, the algorithm converged to a more consistent behaviour the closer it go
 reaching a mean test cost of 13.48.
 It may be helpful to increase the complexity of the neural network architecture to capture this data variance
 and learn more intricate patterns and relationships within it.
+\\
 
+The network forrest model performed poorly on this dataset, as with the others except for digits. Despite having a larger number of 
+features compared to the previous two datasets, none of them stood out as particularly important to the model. The high difference between accuracy
+and f1-score suggests that the model is classifying false positives at a higher rate than false negatives. This is likely due to the unbalanced dataset. The network forrest in this dataset
+essentially acts as a random classifier.
 
 \end{document}
