@@ -49,7 +49,7 @@ while the other comes from \textit{Polina Petrova}. These algorithms may have be
 but their fundamental logic stays consistent from previous use cases.
 \\
 
-We use cross-validation of k=10 folds when testing the performance of our models (except for kNN). We also transform the data into the [0,1] range when using the neural network or kNN classifiers.
+We use cross-validation of k=10 folds when testing the performance of our models. We also transform the data into the [0,1] range when using the neural network or kNN classifiers.
 
 
 \newgeometry{left=1cm,right=1cm}
@@ -104,7 +104,7 @@ We'll analyze this new variant over all of the datasets we look at. This graphic
 \newpage
 \section*{Digits Dataset}
 
-The digits dataset come's from the sci-kit learn library, available in Python. We have chosen to analyze the performance of a neural network classifier and the k-Nearest Neighbors classifier. Again, we mention
+The digits dataset comes from the sci-kit learn library, available in Python. We have chosen to analyze the performance of a neural network classifier and the k-Nearest Neighbors classifier. Again, we mention
 that the neural network tuning was performed by \textit{Yan Mazheika} while the kNN tuning was done by \textit{Polina Petrova}.
 \\
 
@@ -264,10 +264,10 @@ For example, an analysis of its predictions made on an instance of class 0 may r
 \\
 
 The neural network acts as a well-defined alternative to this issue, as it captures more complex patterns and data variability present in handwriting.
-Additionally, a higher neuron count facilitates learning these handwriting variations of numbers of the same class, making the network more reliable in predicting instances that look alike and a higher accuracy.
+Additionally, a higher neuron count facilitates learning these handwriting variations of numbers of the same class, making the network more reliable in predicting instances that look alike and presenting a higher accuracy.
 \\
 
-Additionally the network forrest, our variant model performed surprisingly well on this dataset. This is likely due to the presence of features that
+Additionally the network forrest, our variant model, performed surprisingly well on this dataset. This is likely due to the presence of features that
 are uniformly important. Each individual pixel does not decide the photo, but the majority of them do. This is why the model performed well in this context.
 It's worth noting that with 64 features and a relatively high accuracy, it is almost certain that the k-NN variant tie-breaker was not used.
 Also, what benefits our model is the low resolution of the images, allowing for digits of one class to not vary much in the 64-pixel feature space.
@@ -287,11 +287,11 @@ Perhaps this is because 'Pclass' contains the ticket class of a given passenger,
 the added dimensionality of encoding around 8 titles could have mitigated the importance of the un-altered columns.
 \\
 
-The choice of applying a neural network for this task can be justified by it's performance (speed) and ability to learn complex patterns. 
-It's arguably the easiest model to tune with respect to the datasets this paper presents.
+The choice of applying a neural network for this task can be justified by its performance (speed) and ability to learn complex patterns. 
+It is arguably the easiest model to tune with respect to the datasets this paper presents.
 \\
 
-The choice of applying a decision tree for this task is natural as well. There are a number of more important features that a high-bias model can benefit from. These
+The choice of applying a decision tree for this task is natural, as well. There are a number of more important features that a high-bias model can benefit from. These
 include passenger class, ticket fare, and gender. With three main features impacting survivability, we can benefit from a decision tree by quickly sub-setting the dataset on those features.
 
 \subsection*{Tuning Hyper-parameters}
@@ -455,7 +455,7 @@ With this algorithm, we can ideally expect a model less prone to over-fitting co
 
 We had to pre-process this dataset as well. The provided file contained a Loan\_ID container which the models would misinterpet as a feature and end up memorizing the target class as
 as a function of the Loan\_ID. Therefore, we removed this column from the dataset. To successfully process the dataset through the random forrest algorithm, the classes had to be encoded as numbers
-but none of the features were on-hot encoded. This is because the random forrest algorithm can handle categorical data without the need for this. For instance, the graduate feature was encoded as 0 for 'No' and 1 for 'Yes'.
+but none of the features were one-hot encoded. This is because the random forrest algorithm can handle categorical data without the need for this. For instance, the graduate feature was encoded as 0 for 'No' and 1 for 'Yes'.
 
 \subsection*{Tuning Hyper-parameters}
 Similar to the implementation of the decision tree model for the titanic dataset,
@@ -468,8 +468,8 @@ metrics during repeated testing on $max\_depth$ = 3,
 which produced greater instability than the former hyperparameter value. 
 \\
 
-We found that the random forest model performed best with 2 ensembles trees. Perhaps other values were optimal such as $ntree = 20$, as seen by the graph above, but
-the variant with the highest accuracy was preferred despite the peak f1-score being at $ntree=20$ and a relatively high accuracy as well.
+We found that the random forest model performed best with 2 ensembles trees. Perhaps other values were optimal such as $ntree = 20$, as seen by the graph below, but
+the variant with the highest accuracy was preferred despite the peak F1-score being at $ntree=20$ and a relatively high accuracy, as well.
 The stopping condition of each tree in the random forrest was the same: a minimal split entropy of 0.21. This was chosen through the method of moments, simply the value that produced the best results at 5 decision trees.
 Alternative stopping conditions that were tested with cross validation include the minimal split entropy, ranging from 0.01 to 0.27 in 10 equal step sizes, the maximum depth of each decision tree, ranging from 3 to 22 in 10 equal steps,
 and the proportion of the dataset required in each branch to perform a split, which ranged from 1\% to 27\% in 10 equal steps.
@@ -604,21 +604,21 @@ That being said, both models converged to poor local optimums,
 indicating a lapse in classification ability for tree-based algorithms on this dataset.
 \\
 
-It'd be difficult to compare the effect of adding an extra decision tree to result in the random forrest model because the algorithms are tuned to different stopping conditions.
+It would be difficult to compare the effect of adding an extra decision tree to result in the random forrest model because the algorithms are tuned to different stopping conditions.
 However, the higher performance of the random forrest model suggests that an ensemble is beneficial, given the nature of the data. This suggests that the data is nuanced and requires greater complexity to capture 
 less-subtle patterns. Indeed, the relatively high performance of the random forest at $ntree=20$ suggests that this is the case and that this alternative model variant could also be acceptable.
 The relatively similar precision and recall scores for the 2-tree ensemble suggests that the model is classifying false positives and negatives at similar rates. This is interesting since 67\% of the dataset is of class 'Y'.
 This potentially explains the precision and recall metrics of the model at $ntree=20$, where the model is classifying false negatives at a higher rate than false positives.
 \\
 
-Again we see the network forrest struggling to perform. Here, this model acts as statistical test against for the non-uniformity of the features. 
+Again, we see the network forrest struggling to perform. Here, this model acts as a statistical test against for the non-uniformity of the features. 
 The majority vote for each feature does not perform well in this context.
 
 \newpage
 \section*{Oxford Parkinson's Disease Dataset}
-The Parkinson's dataset proved to be very tricky. Again we used a neural network and a k-Nearest Neighbors algorithm, as we did with the digits dataset.
+The Parkinson's dataset proved to be very tricky. Again, we used a neural network and a k-Nearest Neighbors algorithm, as we did with the digits dataset.
 Having a large number of features, the k-NN algorithm was expected to perform poorly and the neural network was expected to perform well.
-Indeed, this was the case and unlike with the digits dataset, our hypothesized was confirmed.
+Indeed, this was the case and unlike with the digits dataset, our hypothesis was confirmed.
 \\
 
 The nature of the data is biological and complex by nature. It seems that some features are simply more important than others are. 
@@ -638,7 +638,7 @@ looking to mitigate the overfitting phenomenon observed with smaller values of $
 \\
 
 Tuning the neural network was also quite tricky. We found out that the model did not perform well with any significant regularization.
-Also the nature of the data was such that any changes in hyper-parameters would drastically change model performance.
+Additionally, the nature of the data was such that any changes in hyper-parameters would drastically change model performance.
 The ideal learning rate was found to be 0.1, which was visibly checked to be valid by the training and testing cost curves.
 Furthermore, the network performed poorly with any number of hidden layers greater than one. Better results were also found with a smaller number of nodes in
 the single hidden layer, suggesting that certain features were more important than others.
@@ -767,7 +767,7 @@ representative of the overfitting issue mentioned previously.
 This increase in variance suggests that the algorithm's performance deteriorated
 as it tried to adapt to noise in the training data.
 However, once $k$ hit 61, variance decreased substantially, 
-indicating that considering a larger number of neighbors allowed the algorithm 
+indicating that considering a larger number of neighbours allowed the algorithm 
 to smooth out the impact of individual data points and consider the dataset comprehensively.
 \\
 
@@ -781,9 +781,9 @@ It may be helpful to increase the complexity of the neural network architecture 
 and learn more intricate patterns and relationships within it.
 \\
 
-The network forrest model performed poorly on this dataset, as with the others except for digits. Despite having a larger number of 
+The network forrest model performed poorly on this dataset, as with the titanic and loan datasets. Despite having a larger number of 
 features compared to the previous two datasets, none of them stood out as particularly important to the model. The high difference between accuracy
-and f1-score suggests that the model is classifying false positives at a higher rate than false negatives. This is likely due to the unbalanced dataset. The network forrest in this dataset
+and F1-score suggests that the model is classifying false positives at a higher rate than false negatives. This is likely due to the unbalanced dataset. The network forrest in this dataset
 essentially acts as a random classifier.
 
 \end{document}
